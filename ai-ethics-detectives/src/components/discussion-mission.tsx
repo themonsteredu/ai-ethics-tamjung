@@ -46,6 +46,15 @@ export function DiscussionMission({ item, answer, onPatch, onComplete }: Discuss
     onPatch({ roleIndex: Math.floor(Math.random() * item.viewpoints.length) });
   }
 
+  function toggleTimer() {
+    if (secondsLeft === 0) {
+      setSecondsLeft(phase.seconds);
+      setRunning(true);
+      return;
+    }
+    setRunning((value) => !value);
+  }
+
   const minutes = Math.floor(secondsLeft / 60).toString().padStart(2, "0");
   const seconds = (secondsLeft % 60).toString().padStart(2, "0");
   const progress = ((phase.seconds - secondsLeft) / phase.seconds) * 100;
@@ -77,7 +86,7 @@ export function DiscussionMission({ item, answer, onPatch, onComplete }: Discuss
         <div className="timer-track"><i style={{ width: `${progress}%` }} /></div>
         <div className="timer-actions">
           <button className="ghost-button" onClick={() => { setSecondsLeft(phase.seconds); setRunning(false); }}>처음으로</button>
-          <button className="primary-button" onClick={() => setRunning((value) => !value)}>{running ? "잠시 멈춤" : secondsLeft === 0 ? "다시 시작" : "타이머 시작"}</button>
+          <button className="primary-button" onClick={toggleTimer}>{running ? "잠시 멈춤" : secondsLeft === 0 ? "다시 시작" : "타이머 시작"}</button>
           {phaseIndex < phases.length - 1 && <button className="outline-button" onClick={() => movePhase(phaseIndex + 1)}>다음 단계 →</button>}
         </div>
       </section>
