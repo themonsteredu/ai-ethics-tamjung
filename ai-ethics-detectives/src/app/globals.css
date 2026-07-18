@@ -1080,7 +1080,17 @@ textarea { min-height: 92px; resize: vertical; line-height: 1.5; }
   .hero-actions { align-items: stretch; }
   .hero-actions .primary-button { width: 100%; }
   .hero-metrics { gap: 14px; }
-  .hero-metrics div { display: grid; gap: 1px; text-align: left; }
+  .hero-metrics { gap: 0; }
+  .hero-metrics div {
+    flex: 1;
+    display: grid;
+    gap: 1px;
+    padding: 0 12px;
+    border-right: 1px solid var(--line);
+    text-align: left;
+  }
+  .hero-metrics div:first-child { padding-left: 0; }
+  .hero-metrics div:last-child { padding-right: 0; border-right: 0; }
   .hero-visual { min-height: 445px; margin: 42px 0 0; transform: none; }
   .hero-visual .case-file { width: min(330px, 86%); height: 410px; }
   .hero-visual .main-file { padding: 25px; }
