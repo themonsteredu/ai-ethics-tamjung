@@ -78,9 +78,14 @@ export function DetectiveApp() {
     }));
   }
 
+  function moveToScreen(nextScreen: Screen) {
+    setScreen(nextScreen);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function startMission() {
     setCaseIndex(0);
-    setScreen("briefing");
+    moveToScreen("briefing");
   }
 
   function resetMission() {
@@ -91,7 +96,7 @@ export function DetectiveApp() {
     setAnswers({});
     setSelectedRules([]);
     setCustomRule("");
-    setScreen("home");
+    moveToScreen("home");
   }
 
   function continueFromResult() {
@@ -112,7 +117,7 @@ export function DetectiveApp() {
       <div className="archive-rail" aria-hidden="true"><span>AI ETHICS ARCHIVE</span><b>01—04</b></div>
 
       <header className="site-header">
-        <button className="brand" onClick={() => setScreen("home")} aria-label="처음 화면으로 이동">
+        <button className="brand" onClick={() => moveToScreen("home")} aria-label="처음 화면으로 이동">
           <span className="brand-mark" aria-hidden="true">⌕</span>
           <span><b>AI 윤리탐정단</b><small>멈 · 살 · 확 · 밝</small></span>
           <i className="brand-index" aria-hidden="true">FIELD LAB 2026</i>
@@ -194,7 +199,7 @@ export function DetectiveApp() {
               <div><span>2</span><p><b>다른 생각을 존중해요.</b><small>정답보다 판단한 이유를 귀 기울여 들어요.</small></p></div>
               <div><span>3</span><p><b>생각은 바뀔 수 있어요.</b><small>토론 후 더 좋은 판단으로 바꾸는 건 멋진 일이에요.</small></p></div>
             </div>
-            <button className="primary-button full" disabled={!nickname.trim()} onClick={() => setScreen("case")}>사건 파일 열기 <span>→</span></button>
+            <button className="primary-button full" disabled={!nickname.trim()} onClick={() => moveToScreen("case")}>사건 파일 열기 <span>→</span></button>
           </div>
         </section>
       )}
@@ -226,14 +231,14 @@ export function DetectiveApp() {
       {screen === "investigation" && currentCase && (
         <section className="content-page page-enter">
           <CaseHeading item={currentCase} step="증거 조사" />
-          <InvestigationBoard item={currentCase} answer={currentAnswer} onPatch={patchAnswer} onContinue={() => setScreen("discussion")} />
+          <InvestigationBoard item={currentCase} answer={currentAnswer} onPatch={patchAnswer} onContinue={() => moveToScreen("discussion")} />
         </section>
       )}
 
       {screen === "discussion" && currentCase && (
         <section className="content-page page-enter">
           <CaseHeading item={currentCase} step="역할 토론" />
-          <DiscussionMission item={currentCase} answer={currentAnswer} onPatch={patchAnswer} onComplete={() => setScreen("result")} />
+          <DiscussionMission item={currentCase} answer={currentAnswer} onPatch={patchAnswer} onComplete={() => moveToScreen("result")} />
         </section>
       )}
 
@@ -273,7 +278,7 @@ export function DetectiveApp() {
             </div>
             <ConstitutionPreview nickname={nickname} selectedRules={selectedRules} customRule={customRule} />
           </div>
-          <div className="center-actions"><button className="primary-button large" disabled={selectedRules.length < 3} onClick={() => setScreen("complete")}>탐정 임무 완료 <span>→</span></button></div>
+          <div className="center-actions"><button className="primary-button large" disabled={selectedRules.length < 3} onClick={() => moveToScreen("complete")}>탐정 임무 완료 <span>→</span></button></div>
         </section>
       )}
 
