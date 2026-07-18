@@ -1,0 +1,18 @@
+# Local tools and temporary analysis files
+.pnpm-store/
+tmp/
+
+# Next.js
+ai-ethics-detectives/node_modules/
+ai-ethics-detectives/.next/
+ai-ethics-detectives/out/
+ai-ethics-detectives/.vercel/
+ai-ethics-detectives/*.log
+
+# Environment files
+ai-ethics-detectives/.env*
+!ai-ethics-detectives/.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
