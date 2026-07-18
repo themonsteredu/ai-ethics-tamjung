@@ -109,11 +109,13 @@ export function DetectiveApp() {
     <main className="app-shell">
       <div className="ambient ambient-one" />
       <div className="ambient ambient-two" />
+      <div className="archive-rail" aria-hidden="true"><span>AI ETHICS ARCHIVE</span><b>01—04</b></div>
 
       <header className="site-header">
         <button className="brand" onClick={() => setScreen("home")} aria-label="처음 화면으로 이동">
           <span className="brand-mark" aria-hidden="true">⌕</span>
           <span><b>AI 윤리탐정단</b><small>멈 · 살 · 확 · 밝</small></span>
+          <i className="brand-index" aria-hidden="true">FIELD LAB 2026</i>
         </button>
         <div className="header-actions">
           {screen !== "home" && <span className="mini-id">탐정 {nickname || "새싹"}</span>}
@@ -139,7 +141,7 @@ export function DetectiveApp() {
       {screen === "home" && (
         <section className="hero page-enter">
           <div className="hero-copy">
-            <div className="eyebrow"><span>●</span> AI 시대의 첫 번째 시민 수업</div>
+            <div className="eyebrow"><span>ARCHIVE 01</span> AI 시대의 첫 번째 시민 수업</div>
             <h1>AI가 말하면<br /><em>전부 믿어도 될까?</em></h1>
             <p className="hero-lead">네 개의 수상한 사건을 해결하며<br className="desktop-break" /> 안전하고 정직한 AI 사용법을 찾아보세요.</p>
             <div className="hero-actions">
@@ -147,11 +149,16 @@ export function DetectiveApp() {
               <button className="text-button" onClick={() => setShowTeacher(true)}>40분 수업 운영법 보기</button>
             </div>
             <div className="privacy-note"><span aria-hidden="true">◈</span> 실명도, 로그인도 필요 없어요. 기록은 이 기기에만 저장됩니다.</div>
+            <div className="hero-metrics" aria-label="프로그램 구성">
+              <div><b>04</b><span>윤리 사건</span></div>
+              <div><b>40</b><span>수업 시간</span></div>
+              <div><b>01</b><span>우리 반 헌법</span></div>
+            </div>
           </div>
           <div className="hero-visual" aria-label="AI 윤리 사건 파일 일러스트">
             <div className="case-file back-file"><span>TOP SECRET</span></div>
             <div className="case-file main-file">
-              <div className="file-top"><span>사건 파일</span><b>#AI-042</b></div>
+              <div className="file-top"><span>ETHICS CASE FILE</span><b>#AI-042</b></div>
               <div className="robot-face"><i /><div className="eyes"><span /><span /></div><div className="mouth" /></div>
               <div className="scan-line" />
               <div className="file-stamp">판단 보류</div>
@@ -242,9 +249,9 @@ export function DetectiveApp() {
               {currentAnswer.finalSignal && <div className={`mind-change ${currentAnswer.firstSignal !== currentAnswer.finalSignal ? "changed" : ""}`}>{currentAnswer.firstSignal !== currentAnswer.finalSignal ? "생각이 바뀌었어요 — 멋진 성장!" : "판단을 유지했어요 — 근거가 더 단단해졌어요!"}</div>}
             </div>
             <div className="decision-panel">
-              <div className="decision-block"><b>내 판단에 가장 영향을 준 단서</b><div className="clue-chips">{(currentAnswer.investigated ?? []).map((index) => { const step = currentCase.investigation[index]; return <button key={step.action} className={currentAnswer.influentialEvidence === index ? "selected" : ""} onClick={() => patchAnswer({ influentialEvidence: index })}><span>단서 {index + 1}</span>{step.source}</button>; })}</div></div>
-              <div className="decision-block"><b>필요한 윤리 키워드 하나</b><div className="choice-chips">{currentCase.values.map((value) => <button key={value} className={currentAnswer.value === value ? "selected" : ""} onClick={() => patchAnswer({ value })}>{value}</button>)}</div></div>
-              <div className="decision-block"><b>가장 좋은 해결 행동</b><div className="action-list">{currentCase.actions.map((action, index) => <button key={action} className={currentAnswer.action === action ? "selected" : ""} onClick={() => patchAnswer({ action })}><span>{String.fromCharCode(65 + index)}</span>{action}</button>)}</div></div>
+              <div className="decision-block"><b>내 판단에 가장 영향을 준 단서</b><div className="clue-chips">{(currentAnswer.investigated ?? []).map((index) => { const step = currentCase.investigation[index]; return <button key={step.action} className={currentAnswer.influentialEvidence === index ? "selected" : ""} onClick={() => patchAnswer({ influentialEvidence: index })} aria-pressed={currentAnswer.influentialEvidence === index}><span>단서 {index + 1}</span>{step.source}</button>; })}</div></div>
+              <div className="decision-block"><b>필요한 윤리 키워드 하나</b><div className="choice-chips">{currentCase.values.map((value) => <button key={value} className={currentAnswer.value === value ? "selected" : ""} onClick={() => patchAnswer({ value })} aria-pressed={currentAnswer.value === value}>{value}</button>)}</div></div>
+              <div className="decision-block"><b>가장 좋은 해결 행동</b><div className="action-list">{currentCase.actions.map((action, index) => <button key={action} className={currentAnswer.action === action ? "selected" : ""} onClick={() => patchAnswer({ action })} aria-pressed={currentAnswer.action === action}><span>{String.fromCharCode(65 + index)}</span>{action}</button>)}</div></div>
             </div>
           </div>
           {currentAnswer.finalSignal && currentAnswer.influentialEvidence !== undefined && currentAnswer.value && currentAnswer.action && (
@@ -259,7 +266,7 @@ export function DetectiveApp() {
           <div className="constitution-layout">
             <div className="rule-picker">
               {constitutionRules.map((rule, index) => (
-                <button key={rule} className={selectedRules.includes(index) ? "selected" : ""} onClick={() => setSelectedRules((previous) => previous.includes(index) ? previous.filter((value) => value !== index) : [...previous, index])}><span>{selectedRules.includes(index) ? "✓" : index + 1}</span><p>{rule}</p></button>
+                <button key={rule} className={selectedRules.includes(index) ? "selected" : ""} onClick={() => setSelectedRules((previous) => previous.includes(index) ? previous.filter((value) => value !== index) : [...previous, index])} aria-pressed={selectedRules.includes(index)}><span>{selectedRules.includes(index) ? "✓" : index + 1}</span><p>{rule}</p></button>
               ))}
               <label className="input-label" htmlFor="custom-rule">우리가 직접 만드는 한 가지 약속 (선택)</label>
               <input id="custom-rule" value={customRule} onChange={(event) => setCustomRule(event.target.value.slice(0, 80))} placeholder="우리만의 약속을 적어 보세요." />
@@ -290,7 +297,7 @@ export function DetectiveApp() {
 }
 
 function ProgressBar({ current }: { current: number }) {
-  return <nav className="progress-wrap" aria-label="수업 진행 단계"><span>탐정 임무</span><div className="progress-track">{ethicsCases.map((item, index) => <div key={item.id} className={index < current ? "done" : index === current ? "active" : ""}><i>{index < current ? "✓" : index + 1}</i><small>{index === current ? item.category.split(" · ")[0] : `사건 ${index + 1}`}</small></div>)}<div className={current === ethicsCases.length ? "active" : ""}><i>★</i><small>윤리 헌법</small></div></div></nav>;
+  return <nav className="progress-wrap" aria-label="수업 진행 단계"><span>INVESTIGATION</span><div className="progress-track">{ethicsCases.map((item, index) => <div key={item.id} className={index < current ? "done" : index === current ? "active" : ""} aria-current={index === current ? "step" : undefined}><i>{index < current ? "✓" : index + 1}</i><small>{index === current ? item.category.split(" · ")[0] : `사건 ${index + 1}`}</small></div>)}<div className={current === ethicsCases.length ? "active" : ""} aria-current={current === ethicsCases.length ? "step" : undefined}><i>★</i><small>윤리 헌법</small></div></div></nav>;
 }
 
 function CaseHeading({ item, step }: { item: (typeof ethicsCases)[number]; step: string }) {
