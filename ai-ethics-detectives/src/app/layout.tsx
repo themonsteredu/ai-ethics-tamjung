@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AI ?ㅻ━?먯젙??| 硫댟룹궡쨌?빧룸컼",
-  description: "珥덈벑?숈깮???꾪븳 AI ?ㅻ━ ?щ? 湲곕컲 ?먯젙 ?좊줎 ?꾨줈洹몃옩",
+  title: "AI 윤리탐정단 | 멈·살·확·밝",
+  description: "초등학생을 위한 AI 윤리 사례 기반 탐정 토론 프로그램",
 };
 
 export const viewport: Viewport = {
