@@ -1,17 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { constitutionRules, ethicsCases, type Signal } from "@/data/cases";
+import { DiscussionMission } from "@/components/discussion-mission";
+import { GrowthReport } from "@/components/growth-report";
+import { InvestigationBoard } from "@/components/investigation-board";
+import { constitutionRules, ethicsCases, type CaseAnswer, type Signal } from "@/data/cases";
 
-type Screen = "home" | "briefing" | "case" | "discussion" | "result" | "constitution" | "complete";
-
-type CaseAnswer = {
-  firstSignal?: Signal;
-  finalSignal?: Signal;
-  reason?: string;
-  value?: string;
-  action?: string;
-};
+type Screen = "home" | "briefing" | "case" | "investigation" | "discussion" | "result" | "constitution" | "complete";
 
 type SavedProgress = {
   nickname?: string;
@@ -215,26 +210,23 @@ export function DetectiveApp() {
               <label className="input-label" htmlFor="reason">그렇게 판단한 까닭</label>
               <textarea id="reason" value={currentAnswer.reason ?? ""} onChange={(event) => patchAnswer({ reason: event.target.value.slice(0, 180) })} placeholder="누가 어떤 영향을 받을지 생각해 보세요." />
               <div className="char-count">{currentAnswer.reason?.length ?? 0}/180</div>
-              <button className="primary-button full" disabled={!currentAnswer.firstSignal || (currentAnswer.reason?.trim().length ?? 0) < 5} onClick={() => setScreen("discussion")}>토론 단서 받기 <span>→</span></button>
+              <button className="primary-button full" disabled={!currentAnswer.firstSignal || (currentAnswer.reason?.trim().length ?? 0) < 5} onClick={() => setScreen("investigation")}>증거 조사 시작 <span>→</span></button>
             </aside>
           </div>
         </section>
       )}
 
+      {screen === "investigation" && currentCase && (
+        <section className="content-page page-enter">
+          <CaseHeading item={currentCase} step="증거 조사" />
+          <InvestigationBoard item={currentCase} answer={currentAnswer} onPatch={patchAnswer} onContinue={() => setScreen("discussion")} />
+        </section>
+      )}
+
       {screen === "discussion" && currentCase && (
         <section className="content-page page-enter">
-          <CaseHeading item={currentCase} step="생각 나누기" />
-          <div className="discussion-hero">
-            <div className="talk-icon" aria-hidden="true">“</div>
-            <div><span>모둠 토론 질문</span><h2>{currentCase.discuss}</h2></div>
-          </div>
-          <div className="viewpoint-grid">
-            {currentCase.viewpoints.map((viewpoint, index) => (
-              <article key={viewpoint.role}><span className="role-number">0{index + 1}</span><div className="role-icon" aria-hidden="true">{["◒", "◇", "⌕"][index]}</div><b>{viewpoint.role}의 눈</b><p>{viewpoint.question}</p></article>
-            ))}
-          </div>
-          <div className="discussion-tip"><b>탐정 대화법</b><span>“나는 ___ 때문에 ___라고 생각해.”</span><span>“네 말을 듣고 ___을 새롭게 알았어.”</span></div>
-          <div className="center-actions"><button className="primary-button large" onClick={() => setScreen("result")}>토론을 마쳤어요 <span>→</span></button></div>
+          <CaseHeading item={currentCase} step="역할 토론" />
+          <DiscussionMission item={currentCase} answer={currentAnswer} onPatch={patchAnswer} onComplete={() => setScreen("result")} />
         </section>
       )}
 
@@ -250,11 +242,12 @@ export function DetectiveApp() {
               {currentAnswer.finalSignal && <div className={`mind-change ${currentAnswer.firstSignal !== currentAnswer.finalSignal ? "changed" : ""}`}>{currentAnswer.firstSignal !== currentAnswer.finalSignal ? "생각이 바뀌었어요 — 멋진 성장!" : "판단을 유지했어요 — 근거가 더 단단해졌어요!"}</div>}
             </div>
             <div className="decision-panel">
+              <div className="decision-block"><b>내 판단에 가장 영향을 준 단서</b><div className="clue-chips">{(currentAnswer.investigated ?? []).map((index) => { const step = currentCase.investigation[index]; return <button key={step.action} className={currentAnswer.influentialEvidence === index ? "selected" : ""} onClick={() => patchAnswer({ influentialEvidence: index })}><span>단서 {index + 1}</span>{step.source}</button>; })}</div></div>
               <div className="decision-block"><b>필요한 윤리 키워드 하나</b><div className="choice-chips">{currentCase.values.map((value) => <button key={value} className={currentAnswer.value === value ? "selected" : ""} onClick={() => patchAnswer({ value })}>{value}</button>)}</div></div>
               <div className="decision-block"><b>가장 좋은 해결 행동</b><div className="action-list">{currentCase.actions.map((action, index) => <button key={action} className={currentAnswer.action === action ? "selected" : ""} onClick={() => patchAnswer({ action })}><span>{String.fromCharCode(65 + index)}</span>{action}</button>)}</div></div>
             </div>
           </div>
-          {currentAnswer.finalSignal && currentAnswer.value && currentAnswer.action && (
+          {currentAnswer.finalSignal && currentAnswer.influentialEvidence !== undefined && currentAnswer.value && currentAnswer.action && (
             <SolutionReveal item={currentCase} onNext={continueFromResult} isLast={caseIndex === ethicsCases.length - 1} />
           )}
         </section>
@@ -286,6 +279,7 @@ export function DetectiveApp() {
           <p>정답을 외운 것이 아니라, 다른 사람의 마음과 권리를 생각하며<br />스스로 판단하는 힘을 길렀습니다.</p>
           <div className="badge-row">{earnedBadges.map((badge) => <div key={badge.syllable}><strong>{badge.syllable}</strong><span>{badge.title}</span></div>)}</div>
           <div className="growth-card"><div><span>해결 사건</span><b>{earnedBadges.length}<small> / {ethicsCases.length}</small></b></div><div><span>생각의 성장</span><b>{changedMindCount}<small> 번</small></b></div><div><span>헌법 조항</span><b>{selectedRules.length + (customRule.trim() ? 1 : 0)}<small> 개</small></b></div></div>
+          <GrowthReport answers={answers} />
           <div className="completion-actions"><button className="primary-button" onClick={() => window.print()}>인증서·헌법 인쇄</button><button className="ghost-button" onClick={resetMission}>새로 시작하기</button></div>
         </section>
       )}
