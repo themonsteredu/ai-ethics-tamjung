@@ -1,4 +1,24 @@
 export type Signal = "green" | "yellow" | "red";
+export type EvidenceRating = "high" | "medium" | "low";
+
+export type CaseAnswer = {
+  firstSignal?: Signal;
+  finalSignal?: Signal;
+  reason?: string;
+  investigated?: number[];
+  evidenceRatings?: Record<number, EvidenceRating>;
+  influentialEvidence?: number;
+  roleIndex?: number;
+  value?: string;
+  action?: string;
+};
+
+export type InvestigationStep = {
+  action: string;
+  source: string;
+  clue: string;
+  reliability: EvidenceRating;
+};
 
 export type EthicsCase = {
   id: number;
@@ -8,6 +28,7 @@ export type EthicsCase = {
   summary: string;
   scene: string;
   evidence: string[];
+  investigation: InvestigationStep[];
   discuss: string;
   viewpoints: { role: string; question: string }[];
   values: string[];
@@ -30,6 +51,11 @@ export const ethicsCases: EthicsCase[] = [
       "AI 답변에는 출처 링크가 없다.",
       "교과서에는 같은 내용이 나오지 않는다.",
       "AI는 매우 확신하는 말투로 답했다.",
+    ],
+    investigation: [
+      { action: "교과서에서 찾아보기", source: "학교 역사 교과서", clue: "교과서에는 세종대왕이 태양열 자동차를 만들었다는 내용이 없습니다.", reliability: "high" },
+      { action: "공공 역사 자료 확인하기", source: "국가기록·박물관 자료", clue: "세종대왕의 주요 업적 자료에도 태양열 자동차 기록은 없습니다.", reliability: "high" },
+      { action: "AI에게 같은 질문 다시 하기", source: "AI의 두 번째 답변", clue: "AI는 출처를 제시하지 않은 채 비슷한 답을 반복했습니다.", reliability: "low" },
     ],
     discuss: "확신 있게 말하는 답은 항상 사실일까요? 어떤 자료로 확인하면 좋을까요?",
     viewpoints: [
@@ -56,6 +82,11 @@ export const ethicsCases: EthicsCase[] = [
       "실명과 학교 정보가 함께 입력되었다.",
       "정보의 주인인 지아는 동의하지 않았다.",
     ],
+    investigation: [
+      { action: "지아의 입장 확인하기", source: "정보의 주인인 지아", clue: "지아는 자신의 이름과 가족 이야기를 AI에 입력하도록 허락한 적이 없습니다.", reliability: "high" },
+      { action: "개인정보 항목 살펴보기", source: "개인정보 보호 체크리스트", clue: "이름, 학교, 반, 가족 이야기가 합쳐지면 특정 사람을 알아볼 수 있습니다.", reliability: "high" },
+      { action: "AI에게 안전한지 물어보기", source: "AI의 일반적인 안내", clue: "AI는 조심하라고 답했지만, 지아의 동의를 대신해 줄 수는 없습니다.", reliability: "medium" },
+    ],
     discuss: "좋은 의도라면 다른 사람의 개인정보를 허락 없이 입력해도 될까요?",
     viewpoints: [
       { role: "지아", question: "내 비밀이 입력된 것을 알면 어떤 기분일까?" },
@@ -81,6 +112,11 @@ export const ethicsCases: EthicsCase[] = [
       "채팅방 친구들이 사진을 다시 저장할 수 있다.",
       "사진 속 친구가 웃지 않았지만 싫다는 말도 하지 않았다.",
     ],
+    investigation: [
+      { action: "사진 속 친구에게 묻기", source: "사진의 당사자", clue: "사진 속 친구는 합성 사진이 불편했고 올리지 않았으면 좋겠다고 말했습니다.", reliability: "high" },
+      { action: "채팅방의 공유 상태 확인하기", source: "모둠 채팅방 기록", clue: "이미 두 명이 사진을 저장했고 다른 방으로 보낼 수도 있는 상태입니다.", reliability: "high" },
+      { action: "친구들이 웃었는지 살펴보기", source: "주변 친구들의 반응", clue: "여러 친구가 웃었지만, 웃음만으로 사진 속 친구의 동의를 알 수는 없습니다.", reliability: "low" },
+    ],
     discuss: "싫다고 말하지 않으면 동의한 것일까요? 재미와 권리가 부딪힐 때 무엇을 먼저 봐야 할까요?",
     viewpoints: [
       { role: "사진 속 친구", question: "많은 친구가 내 사진을 보면 어떤 기분일까?" },
@@ -105,6 +141,11 @@ export const ethicsCases: EthicsCase[] = [
       "주제와 수정 아이디어는 하린이가 생각했다.",
       "그림과 첫 문구는 AI가 만들었다.",
       "대회 안내에는 AI 사용 여부를 밝히라고 적혀 있었다.",
+    ],
+    investigation: [
+      { action: "대회 안내문 확인하기", source: "대회 공식 안내문", clue: "안내문에는 AI를 사용한 부분과 직접 만든 부분을 구분해 적으라고 되어 있습니다.", reliability: "high" },
+      { action: "포스터 제작 기록 살펴보기", source: "하린이의 작업 기록", clue: "주제와 수정은 하린이가 했고, 첫 문구와 그림은 AI가 만들었습니다.", reliability: "high" },
+      { action: "친구에게 작품 의견 묻기", source: "친구의 개인적인 의견", clue: "친구는 조금 고쳤으니 괜찮다고 생각했지만 대회 규칙은 확인하지 않았습니다.", reliability: "medium" },
     ],
     discuss: "AI의 도움을 받으면 내 생각과 노력이 모두 사라질까요? 정직하게 밝히는 방법은 무엇일까요?",
     viewpoints: [
