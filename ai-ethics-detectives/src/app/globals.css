@@ -33,6 +33,19 @@ button:disabled { cursor: not-allowed; opacity: .4; transform: none !important; 
 .ghost-button, .text-button { border: 0; cursor: pointer; font-weight: 800; background: transparent; }
 .ghost-button { border: 1px solid var(--line); border-radius: 12px; padding: 11px 16px; background: rgba(255,255,255,.5); }
 .ghost-button:hover { background: var(--white); }
+.resource-menu { position: relative; }
+.resource-menu summary { list-style: none; }
+.resource-menu summary::-webkit-details-marker { display: none; }
+.resource-trigger { display: flex; align-items: center; gap: 7px; }
+.resource-trigger span { color: var(--violet-dark); font-size: 15px; transition: transform .16s; }
+.resource-menu[open] .resource-trigger span { transform: rotate(180deg); }
+.resource-popover { position: absolute; z-index: 40; top: calc(100% + 10px); right: 0; width: 290px; border: 1px solid var(--line); border-radius: 16px; background: white; padding: 13px; box-shadow: 0 18px 45px rgba(23,21,47,.16); }
+.resource-label { display: block; padding: 3px 5px 9px; color: var(--muted); font-size: 12px; font-weight: 850; }
+.resource-popover a { display: flex; flex-direction: column; gap: 3px; border-radius: 11px; background: #f1edff; color: var(--ink); padding: 13px; text-decoration: none; }
+.resource-popover a:hover { background: #e7e0ff; }
+.resource-popover a strong { color: var(--violet-dark); font-size: 15px; }
+.resource-popover a small { color: var(--muted); font-size: 12px; font-weight: 700; }
+.resource-popover p { margin: 10px 5px 2px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .text-button { color: var(--violet-dark); padding: 12px; font-size: 16px; line-height: 1.4; }
 .primary-button, .outline-button { border: 0; border-radius: 14px; padding: 14px 20px; font-weight: 900; cursor: pointer; transition: transform .18s, box-shadow .18s, background .18s; display: inline-flex; align-items: center; justify-content: center; gap: 18px; }
 .primary-button { background: var(--ink); color: white; box-shadow: 0 9px 0 #080714; }
@@ -249,6 +262,68 @@ textarea { min-height: 92px; resize: vertical; line-height: 1.5; }
 .standard-box p { font-size: 12px; line-height: 1.55; color: #d3cfe0; }
 .standard-box strong { color: white; }
 
+/* Teacher worksheet hub */
+.worksheet-hub { min-height: 100vh; background: #ecebea; padding: 28px 20px 70px; color: #202020; }
+.worksheet-toolbar { width: min(1040px, 100%); margin: 0 auto 18px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 22px; border-radius: 16px; background: white; padding: 16px 18px; box-shadow: 0 12px 35px rgba(23,21,47,.09); }
+.worksheet-back { color: var(--violet-dark); font-size: 14px; font-weight: 850; text-decoration: none; }
+.worksheet-toolbar > div { display: flex; flex-direction: column; gap: 3px; }
+.worksheet-toolbar b { font-size: 15px; }
+.worksheet-toolbar span { color: var(--muted); font-size: 12px; }
+.worksheet-print-button { border: 0; border-radius: 11px; background: var(--ink); color: white; cursor: pointer; padding: 12px 16px; font-weight: 850; }
+.worksheet-print-button span { color: var(--lime); margin-left: 6px; }
+.worksheet-guide { width: min(1040px, 100%); margin: 0 auto 20px; display: flex; align-items: center; gap: 15px; border: 1px solid #d8d4c9; border-radius: 12px; background: #faf8f1; padding: 12px 16px; }
+.worksheet-guide > span { border-radius: 999px; background: var(--ink); color: white; padding: 6px 10px; font-size: 12px; font-weight: 850; white-space: nowrap; }
+.worksheet-guide p { margin: 0; color: #5d5b68; font-size: 13px; line-height: 1.55; }
+.worksheet-stack { display: grid; gap: 28px; justify-content: center; }
+.print-sheet { position: relative; width: 210mm; min-height: 297mm; overflow: hidden; background: white; padding: 13mm 15mm 12mm; box-shadow: 0 18px 45px rgba(21,20,31,.12); font-family: "NanumBarunGothic", "Malgun Gothic", sans-serif; }
+.print-sheet-head { text-align: center; }
+.print-sheet-head h1 { margin: 0; font-size: 21px; letter-spacing: -.8px; }
+.print-sheet-head > p { margin: 4px 0 12px; color: #6e6e6e; font-size: 10px; }
+.student-fields { display: grid; grid-template-columns: 1.7fr .7fr .55fr .65fr 1.1fr; gap: 15px; text-align: left; }
+.student-fields span { display: flex; align-items: end; gap: 7px; font-size: 9.5px; font-weight: 800; white-space: nowrap; }
+.student-fields i { flex: 1; height: 15px; border-bottom: 1px solid #8b8b8b; }
+.print-goal { display: grid; grid-template-columns: 26mm 1fr; align-items: center; margin: 10px 0; border: 1px solid #d2d2d2; border-radius: 3px; background: #f1f1f1; min-height: 10mm; padding: 0 7px; font-size: 9.5px; }
+.print-goal b { padding-left: 4px; }
+.print-case { margin-bottom: 5px; }
+.print-case-title { display: grid; grid-template-columns: 18mm 1fr auto; align-items: end; gap: 5px; margin-bottom: 7px; }
+.print-case-title > span { color: #505050; font-size: 9.5px; font-weight: 850; }
+.print-case-title h2 { margin: 0; font-size: 18px; letter-spacing: -.7px; }
+.print-case-title small { color: #737373; font-size: 8.5px; }
+.print-case-body { display: grid; grid-template-columns: 1.6fr 1fr; min-height: 34mm; border: 1px solid #aaa; border-radius: 4px 4px 0 0; background: #fafafa; }
+.print-case-body > div { padding: 9px 12px; }
+.print-case-body > div + div { border-left: 1px solid #ccc; }
+.print-case-body b, .print-question b { font-size: 9px; }
+.print-case-body p { margin: 6px 0 0; color: #454545; font-size: 8.6px; line-height: 1.55; }
+.print-case-body ul { margin: 6px 0 0; padding-left: 17px; color: #454545; font-size: 8px; line-height: 1.45; }
+.print-case-body li + li { margin-top: 3px; }
+.print-question { display: grid; grid-template-columns: 27mm 1fr; align-items: center; min-height: 9mm; border: solid #aaa; border-width: 0 1px 1px; border-radius: 0 0 4px 4px; background: #fafafa; padding: 0 12px; font-size: 8.6px; }
+.print-question span { font-weight: 800; }
+.worksheet-section { margin-top: 5px; }
+.worksheet-section-head { display: grid; grid-template-columns: 18mm auto 1fr; align-items: center; border-bottom: 1px solid #4e4e4e; min-height: 9mm; }
+.worksheet-section-head > span { align-self: stretch; display: grid; place-items: center; background: #555; color: white; font-size: 9px; font-weight: 850; }
+.worksheet-section-head h3 { margin: 0 0 0 10px; font-size: 13px; }
+.worksheet-section-head small { justify-self: end; color: #777; font-size: 7.6px; }
+.judgement-line, .after-row { display: grid; grid-template-columns: 36mm repeat(3, 1fr); align-items: center; min-height: 10mm; padding: 0 4px; font-size: 8.8px; }
+.after-row { grid-template-columns: 53mm repeat(3, 1fr); min-height: 8mm; }
+.judgement-line b, .after-row b { font-size: 8.5px; }
+.judgement-line label, .after-row label, .action-grid label { display: flex; align-items: center; gap: 6px; }
+.judgement-line i, .after-row i { width: 4mm; height: 4mm; border: 1px solid #555; }
+.writing-lines { display: grid; grid-template-columns: 44mm 1fr; align-items: start; padding: 0 4px; font-size: 8.5px; }
+.writing-lines > b { padding-top: 5px; }
+.writing-lines > div { display: grid; }
+.writing-lines i { display: block; height: 7mm; border-bottom: 1px solid #aaa; }
+.opinion-table { width: 100%; height: 49mm; border-collapse: collapse; table-layout: fixed; }
+.opinion-table th, .opinion-table td { border: 1px solid #bbb; }
+.opinion-table th { height: 8mm; background: #f0f0f0; font-size: 8.7px; }
+.opinion-table th:first-child { width: 25%; }
+.opinion-table th:nth-child(2) { width: 37%; }
+.opinion-table tr { height: 13mm; }
+.action-help { margin: 5px 4px 3px; color: #565656; font-size: 8px; }
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 30px; padding: 2px 4px 3px; font-size: 8.2px; }
+.action-grid i { width: 4mm; height: 4mm; border: 1px solid #555; border-radius: 50%; }
+.print-sheet-footer { position: absolute; left: 15mm; right: 15mm; bottom: 8mm; display: flex; justify-content: space-between; border-top: 1px solid #d3d3d3; padding-top: 3mm; color: #777; font-size: 7.2px; }
+.print-sheet-footer b { font-weight: 500; }
+
 .page-enter { animation: enter .35s ease-out both; }
 @keyframes enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -269,8 +344,11 @@ textarea { min-height: 92px; resize: vertical; line-height: 1.5; }
   .site-header { width: calc(100% - 24px); height: 72px; }
   .brand-mark { width: 38px; height: 38px; }
   .brand b { font-size: 15px; }
+  .brand small { font-size: 10px; }
   .mini-id { display: none; }
   .ghost-button { padding: 9px 11px; font-size: 12px; }
+  .header-actions { gap: 6px; }
+  .resource-popover { position: fixed; top: 68px; left: 12px; right: 12px; width: auto; }
   .hero, .content-page, .content-page.compact { width: calc(100% - 24px); }
   .hero { padding-top: 35px; }
   .hero h1 { letter-spacing: -3px; font-size: 48px; }
@@ -301,12 +379,24 @@ textarea { min-height: 92px; resize: vertical; line-height: 1.5; }
   .completion-actions { flex-direction: column; }
   .teacher-panel { padding: 27px 20px; }
   .lesson-timeline > div { grid-template-columns: 40px 50px 1fr; }
+  .worksheet-hub { padding: 12px 10px 50px; overflow-x: auto; }
+  .worksheet-toolbar { grid-template-columns: 1fr auto; gap: 10px; position: sticky; left: 0; }
+  .worksheet-toolbar > div { display: none; }
+  .worksheet-back { font-size: 12px; }
+  .worksheet-print-button { padding: 10px 12px; font-size: 12px; }
+  .worksheet-guide { min-width: 720px; }
 }
 
 @media print {
+  @page { size: A4 portrait; margin: 0; }
   body { background: white; }
   .site-header, .progress-wrap, .completion-actions, .ambient, .confetti { display: none !important; }
   .completion { min-height: 100vh; }
+  .no-print { display: none !important; }
+  .worksheet-hub { min-height: 0; background: white; padding: 0; }
+  .worksheet-stack { display: block; }
+  .print-sheet { width: 210mm; height: 297mm; min-height: 0; padding: 13mm 15mm 12mm; box-shadow: none; break-after: page; page-break-after: always; }
+  .print-sheet:last-child { break-after: auto; page-break-after: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
