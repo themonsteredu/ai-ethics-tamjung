@@ -122,6 +122,17 @@ export function DetectiveApp() {
         </button>
         <div className="header-actions">
           {screen !== "home" && <span className="mini-id">탐정 {nickname || "새싹"}</span>}
+          <details className="resource-menu">
+            <summary className="ghost-button resource-trigger">수업 자료 <span aria-hidden="true">⌄</span></summary>
+            <div className="resource-popover">
+              <span className="resource-label">교사용 인쇄 자료</span>
+              <a href="/worksheets" target="_blank" rel="noreferrer">
+                <strong>사건별 활동지</strong>
+                <small>4쪽 · 인쇄 또는 PDF 저장</small>
+              </a>
+              <p>새 창에서 필요한 페이지만 선택해 인쇄할 수 있어요.</p>
+            </div>
+          </details>
           <button className="ghost-button" onClick={() => setShowTeacher(true)}>교사용 안내</button>
         </div>
       </header>
