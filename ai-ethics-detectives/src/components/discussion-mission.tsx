@@ -71,7 +71,7 @@ export function DiscussionMission({ item, answer, onPatch, onComplete }: Discuss
         <div className="viewpoint-grid">
           {item.viewpoints.map((viewpoint, index) => (
             <button key={viewpoint.role} className={answer.roleIndex === index ? "selected" : ""} onClick={() => onPatch({ roleIndex: index })} aria-pressed={answer.roleIndex === index}>
-              <span className="role-number">0{index + 1}</span><span className="role-icon" aria-hidden="true">{["◒", "◇", "⌕"][index]}</span><b>{viewpoint.role}의 눈</b><p>{viewpoint.question}</p>{answer.roleIndex === index && <strong>나의 역할</strong>}
+              <span className="role-number">0{index + 1}</span><span className="role-icon" aria-hidden="true">{["◒", "◇", "⌕"][index]}</span><b>{viewpoint.role}의 눈</b><p>{viewpoint.question}</p>{answer.roleIndex === index && <strong>✓ 역할 배정 완료</strong>}
             </button>
           ))}
         </div>
@@ -80,7 +80,7 @@ export function DiscussionMission({ item, answer, onPatch, onComplete }: Discuss
       <section className="discussion-timer" aria-label="토론 타이머">
         <div className="timer-phase-list">{phases.map((itemPhase, index) => <button key={itemPhase.title} className={phaseIndex === index ? "active" : phaseIndex > index ? "done" : ""} onClick={() => movePhase(index)}><span>{phaseIndex > index ? "✓" : index + 1}</span>{itemPhase.title}</button>)}</div>
         <div className="timer-main">
-          <div><span className="section-kicker">{phase.title}</span><h3>{phase.guide}</h3></div>
+          <div><span className="section-kicker"><i aria-hidden="true" />{phase.title}</span><h3>{phase.guide}</h3></div>
           <time aria-live="polite">{minutes}:{seconds}</time>
         </div>
         <div className="timer-track"><i style={{ width: `${progress}%` }} /></div>
