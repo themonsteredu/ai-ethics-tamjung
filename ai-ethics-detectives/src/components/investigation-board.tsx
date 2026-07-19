@@ -67,8 +67,8 @@ export function InvestigationBoard({ item, answer, onPatch, onContinue }: Invest
       </div>
 
       <div className="investigation-footer">
-        <p>{ready ? "조사 완료! 이제 역할을 맡아 친구들과 근거를 나눠보세요." : "단서를 2개 이상 열고 각각의 신뢰도를 판단하면 다음 단계로 갈 수 있어요."}</p>
-        <button className="primary-button large" disabled={!ready} onClick={onContinue}>역할 토론으로 <span>→</span></button>
+        <p>{ready ? "조사 완료! 이제 비밀 질문을 열고 단서를 수사판에 연결해 보세요." : "단서를 2개 이상 열고 각각의 신뢰도를 판단하면 다음 단계로 갈 수 있어요."}</p>
+        <button className="primary-button large" disabled={!ready} onClick={onContinue}>탐정 수사회의로 <span>→</span></button>
       </div>
     </>
   );
