@@ -161,6 +161,7 @@ export function DetectiveApp() {
             </div>
           </div>
           <div className="hero-visual" aria-label="AI 윤리 사건 파일 일러스트">
+            <div className="case-alert" aria-hidden="true"><i /><span>새 사건 도착!</span><b>4건 대기</b></div>
             <div className="case-file back-file"><span>TOP SECRET</span></div>
             <div className="case-file main-file">
               <div className="file-top"><span>ETHICS CASE FILE</span><b>#AI-042</b></div>
@@ -306,17 +307,27 @@ function ProgressBar({ current }: { current: number }) {
 }
 
 function CaseHeading({ item, step }: { item: (typeof ethicsCases)[number]; step: string }) {
-  return <header className="case-heading"><div><span className="case-number">{item.caseNo}</span><span className="category-pill">{item.category}</span></div><h1>{item.title}</h1><p>{item.summary}</p><b>{step}</b></header>;
+  return <header className="case-heading"><div><span className="case-number">{item.caseNo}</span><span className="category-pill">{item.category}</span></div><h1>{item.title}</h1><p>{item.summary}</p><b><i aria-hidden="true" />{step}</b></header>;
 }
 
 function SignalPicker({ value, onChange }: { value?: Signal; onChange: (signal: Signal) => void }) {
-  return <div className="signal-picker">{signalOptions.map((option) => <button key={option.id} className={`${option.id} ${value === option.id ? "selected" : ""}`} onClick={() => onChange(option.id)} aria-pressed={value === option.id}><i>{option.icon}</i><span><b>{option.label}</b><small>{option.hint}</small></span></button>)}</div>;
+  const reactions: Record<Signal, string> = {
+    green: "좋아요. 정말 괜찮은지 단서로 확인해 볼까요?",
+    yellow: "좋은 의심이에요. 확인할 단서를 찾아볼까요?",
+    red: "멈춤 신호 포착! 누구를 보호해야 하는지 살펴봐요.",
+  };
+  return (
+    <>
+      <div className="signal-picker">{signalOptions.map((option) => <button key={option.id} className={`${option.id} ${value === option.id ? "selected" : ""}`} onClick={() => onChange(option.id)} aria-pressed={value === option.id}><i>{option.icon}</i><span><b>{option.label}</b><small>{option.hint}</small></span></button>)}</div>
+      {value && <div className={`signal-reaction ${value}`} role="status"><span>판단 기록 완료</span><b>{reactions[value]}</b></div>}
+    </>
+  );
 }
 
 function SolutionReveal({ item, onNext, isLast }: { item: (typeof ethicsCases)[number]; onNext: () => void; isLast: boolean }) {
   const [open, setOpen] = useState(false);
   if (!open) return <div className="center-actions reveal-space"><button className="outline-button large" onClick={() => setOpen(true)}>탐정 해설 확인하기 <span>+</span></button></div>;
-  return <div className="solution-card page-enter"><div className="solution-badge"><strong>{item.badge.syllable}</strong><span>{item.badge.title}</span></div><div><span className="section-kicker">사건 해결 보고서</span><h3>{item.solution}</h3><p><b>{item.badge.title}:</b> {item.badge.text}</p></div><button className="primary-button" onClick={onNext}>{isLast ? "AI 윤리 헌법 만들기" : "다음 사건으로"} <span>→</span></button></div>;
+  return <div className="solution-card page-enter"><div className="case-closed-stamp" aria-hidden="true">CASE<br />CLOSED</div><div className="solution-badge"><strong>{item.badge.syllable}</strong><span>{item.badge.title}</span></div><div><span className="section-kicker">사건 해결 보고서</span><h3>{item.solution}</h3><p><b>{item.badge.title}:</b> {item.badge.text}</p></div><button className="primary-button" onClick={onNext}>{isLast ? "AI 윤리 헌법 만들기" : "다음 사건으로"} <span>→</span></button></div>;
 }
 
 function ConstitutionPreview({ nickname, selectedRules, customRule }: { nickname: string; selectedRules: number[]; customRule: string }) {
