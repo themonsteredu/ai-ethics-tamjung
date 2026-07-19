@@ -162,6 +162,7 @@ export function DetectiveApp() {
           </div>
           <div className="hero-visual" aria-label="AI 윤리 사건 파일 일러스트">
             <div className="case-alert" aria-hidden="true"><i /><span>새 사건 도착!</span><b>4건 대기</b></div>
+            <div className="mystery-teaser" aria-hidden="true"><span>수상한 단서 #01</span><b>출처가 없다?</b><i>?</i></div>
             <div className="case-file back-file"><span>TOP SECRET</span></div>
             <div className="case-file main-file">
               <div className="file-top"><span>ETHICS CASE FILE</span><b>#AI-042</b></div>
@@ -238,7 +239,7 @@ export function DetectiveApp() {
 
       {screen === "discussion" && currentCase && (
         <section className="content-page page-enter">
-          <CaseHeading item={currentCase} step="역할 토론" />
+          <CaseHeading item={currentCase} step="탐정 수사회의" />
           <DiscussionMission item={currentCase} answer={currentAnswer} onPatch={patchAnswer} onComplete={() => moveToScreen("result")} />
         </section>
       )}
@@ -335,5 +336,5 @@ function ConstitutionPreview({ nickname, selectedRules, customRule }: { nickname
 }
 
 function TeacherPanel({ onClose }: { onClose: () => void }) {
-  return <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><section className="teacher-panel" role="dialog" aria-modal="true" aria-labelledby="teacher-title"><button className="modal-close" onClick={onClose} aria-label="닫기">×</button><span className="section-kicker">교사용 빠른 안내</span><h2 id="teacher-title">40분 수업 운영안</h2><div className="lesson-timeline"><div><b>5분</b><span>도입</span><p>“AI가 확신하면 사실일까?” 질문 후 탐정 별명 만들기</p></div><div><b>18분</b><span>개인 판단</span><p>사건 1~2개를 골라 신호등 판단과 까닭 기록하기</p></div><div><b>10분</b><span>모둠 토론</span><p>피해자·사용자·탐정의 관점으로 말하고 재판단하기</p></div><div><b>7분</b><span>실천</span><p>학급 AI 윤리 헌법을 고르고 한 문장 소감 나누기</p></div></div><div className="teacher-notes"><h3>운영 원칙</h3><ul><li>정답 맞히기보다 판단의 근거와 타인에게 미치는 영향을 묻습니다.</li><li>학생이 판단을 바꾼 것을 오답으로 보지 않고 성찰의 증거로 인정합니다.</li><li>실명·사진·연락처를 입력하지 않습니다. 모든 기록은 현재 브라우저에만 저장됩니다.</li><li>모둠당 기기 한 대로도 운영할 수 있습니다.</li></ul></div><div className="standard-box"><b>2022 개정 교육과정 연계</b><p><strong>[6실05-05]</strong> 인공지능이 만들어지는 과정을 체험하고, 인공지능이 사회에 미치는 영향을 탐색한다.</p><p><strong>[6도02-03]</strong> 인간과 인공지능 로봇 간의 다양한 관계를 파악하고 도덕에 기반을 둔 관계 형성의 필요성을 탐구한다.</p></div><button className="primary-button full" onClick={onClose}>안내 확인</button></section></div>;
+  return <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><section className="teacher-panel" role="dialog" aria-modal="true" aria-labelledby="teacher-title"><button className="modal-close" onClick={onClose} aria-label="닫기">×</button><span className="section-kicker">교사용 빠른 안내</span><h2 id="teacher-title">40분 수업 운영안</h2><div className="lesson-timeline"><div><b>5분</b><span>도입</span><p>“AI가 확신하면 사실일까?” 질문 후 탐정 별명 만들기</p></div><div><b>18분</b><span>개인 판단</span><p>사건 1~2개를 골라 신호등 판단과 까닭 기록하기</p></div><div><b>10분</b><span>수사회의</span><p>비밀 질문을 열고 단서·사건 렌즈·의심 카드를 연결해 모둠 판결 만들기</p></div><div><b>7분</b><span>실천</span><p>학급 AI 윤리 헌법을 고르고 한 문장 소감 나누기</p></div></div><div className="teacher-notes"><h3>운영 원칙</h3><ul><li>정답 맞히기보다 판단의 근거와 타인에게 미치는 영향을 묻습니다.</li><li>학생이 판단을 바꾼 것을 오답으로 보지 않고 성찰의 증거로 인정합니다.</li><li>실명·사진·연락처를 입력하지 않습니다. 모든 기록은 현재 브라우저에만 저장됩니다.</li><li>모둠당 기기 한 대로도 운영할 수 있습니다.</li></ul></div><div className="standard-box"><b>2022 개정 교육과정 연계</b><p><strong>[6실05-05]</strong> 인공지능이 만들어지는 과정을 체험하고, 인공지능이 사회에 미치는 영향을 탐색한다.</p><p><strong>[6도02-03]</strong> 인간과 인공지능 로봇 간의 다양한 관계를 파악하고 도덕에 기반을 둔 관계 형성의 필요성을 탐구한다.</p></div><button className="primary-button full" onClick={onClose}>안내 확인</button></section></div>;
 }
