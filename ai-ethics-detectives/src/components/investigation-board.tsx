@@ -45,11 +45,12 @@ export function InvestigationBoard({ item, answer, onPatch, onContinue }: Invest
           const matches = rating === step.reliability;
           return (
             <article className={`investigation-card ${isOpen ? "open" : ""}`} key={step.action}>
-              <div className="investigation-card-head"><span>조사 {index + 1}</span><h3>{step.action}</h3></div>
+              <div className="investigation-card-head"><span>조사 {index + 1}</span><i>{isOpen ? "단서 발견" : "미확인"}</i><h3>{step.action}</h3></div>
               {!isOpen ? (
                 <button className="outline-button investigation-open" onClick={() => toggleStep(index)}>이 행동으로 조사하기 <span>+</span></button>
               ) : (
                 <div className="evidence-reveal page-enter">
+                  <div className="evidence-found"><span aria-hidden="true">✦</span> 새로운 단서를 찾았어요!</div>
                   <span className="evidence-source">출처 · {step.source}</span>
                   <p>{step.clue}</p>
                   <fieldset className="rating-fieldset">
