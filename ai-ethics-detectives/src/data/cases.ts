@@ -1,171 +1,206 @@
-export type Signal = "green" | "yellow" | "red";
-export type EvidenceRating = "high" | "medium" | "low";
+export type Signal = "okay" | "check" | "stop";
 
-export type CaseAnswer = {
+export type DetectiveAnswer = {
   firstSignal?: Signal;
-  finalSignal?: Signal;
-  reason?: string;
-  investigated?: number[];
-  evidenceRatings?: Record<number, EvidenceRating>;
-  influentialEvidence?: number;
-  roleIndex?: number;
+  firstReason?: number;
+  evidence?: number;
+  affected?: number;
   value?: string;
-  action?: string;
-};
-
-export type InvestigationStep = {
-  action: string;
-  source: string;
-  clue: string;
-  reliability: EvidenceRating;
+  discussionSide?: "A" | "B";
+  action?: number;
+  finalSignal?: Signal;
+  changeReason?: string;
 };
 
 export type EthicsCase = {
   id: number;
   caseNo: string;
-  category: string;
+  badge: string;
+  topic: string;
   title: string;
-  summary: string;
+  question: string;
   scene: string;
-  evidence: string[];
-  investigation: InvestigationStep[];
-  discuss: string;
-  viewpoints: { role: string; question: string }[];
+  aiHelp: string;
+  clues: string[];
+  reasonOptions: string[];
+  people: { name: string; impact: string }[];
+  evidenceOptions: { label: string; detail: string; strong: boolean }[];
   values: string[];
-  actions: string[];
-  recommended: Signal;
-  solution: string;
-  badge: { syllable: string; title: string; text: string };
+  discussion: {
+    question: string;
+    sides: { id: "A" | "B"; title: string; description: string }[];
+    prompts: string[];
+  };
+  actions: { text: string; recommended: boolean; why: string }[];
+  principle: string;
+  checklist: { stage: "사용 전" | "사용 중" | "사용 후"; text: string };
 };
+
+export const signalOptions: { id: Signal; label: string; description: string; symbol: string }[] = [
+  { id: "okay", label: "괜찮아요", description: "지금 그대로 해도 괜찮다고 생각해요", symbol: "○" },
+  { id: "check", label: "확인이 필요해요", description: "더 알아보거나 허락을 받아야 해요", symbol: "△" },
+  { id: "stop", label: "멈추고 바꿔야 해요", description: "누군가 피해를 보기 전에 행동을 바꿔야 해요", symbol: "×" },
+];
 
 export const ethicsCases: EthicsCase[] = [
   {
     id: 1,
     caseNo: "CASE 01",
-    category: "환각 · 사실 확인",
-    title: "사라진 세종대왕의 발명품",
-    summary: "AI가 알려준 놀라운 정보, 정말 믿어도 될까?",
-    scene:
-      "민준이는 역사 발표를 준비하며 AI에게 물었습니다. AI는 ‘세종대왕이 1435년에 태양열 자동차를 만들었다’고 답했고, 민준이는 그대로 발표 자료에 넣으려 합니다.",
-    evidence: [
-      "AI 답변에는 출처 링크가 없다.",
-      "교과서에는 같은 내용이 나오지 않는다.",
-      "AI는 매우 확신하는 말투로 답했다.",
+    badge: "확",
+    topic: "사실 확인",
+    title: "세종대왕의 태양열 자동차",
+    question: "AI가 자신 있게 말하면 사실일까?",
+    scene: "민준이는 역사 발표를 준비하며 AI에게 세종대왕의 발명품을 물었습니다. AI는 ‘세종대왕이 1435년에 태양열 자동차를 만들었다’고 답했습니다. 민준이는 이 내용을 발표 자료에 바로 넣으려고 합니다.",
+    aiHelp: "발표에 쓸 정보를 빠르게 찾고 문장으로 정리해 주었습니다.",
+    clues: ["AI 답변에 출처가 없습니다.", "교과서에서는 같은 내용을 찾을 수 없습니다.", "AI는 매우 확신하는 말투로 답했습니다."],
+    reasonOptions: ["AI가 자신 있게 말했기 때문에 믿어도 된다", "출처가 없으므로 다른 자료를 확인해야 한다", "발표 시간이 부족하므로 일단 사용해도 된다"],
+    people: [
+      { name: "민준", impact: "틀린 내용으로 발표하면 친구들의 신뢰를 잃을 수 있어요." },
+      { name: "발표를 듣는 친구들", impact: "틀린 정보를 사실로 기억할 수 있어요." },
+      { name: "선생님", impact: "학생이 어떤 자료를 확인했는지 알기 어려워요." },
     ],
-    investigation: [
-      { action: "교과서에서 찾아보기", source: "학교 역사 교과서", clue: "교과서에는 세종대왕이 태양열 자동차를 만들었다는 내용이 없습니다.", reliability: "high" },
-      { action: "공공 역사 자료 확인하기", source: "국가기록·박물관 자료", clue: "세종대왕의 주요 업적 자료에도 태양열 자동차 기록은 없습니다.", reliability: "high" },
-      { action: "AI에게 같은 질문 다시 하기", source: "AI의 두 번째 답변", clue: "AI는 출처를 제시하지 않은 채 비슷한 답을 반복했습니다.", reliability: "low" },
-    ],
-    discuss: "확신 있게 말하는 답은 항상 사실일까요? 어떤 자료로 확인하면 좋을까요?",
-    viewpoints: [
-      { role: "발표자", question: "틀린 정보로 발표하면 어떤 일이 생길까?" },
-      { role: "친구", question: "그 발표를 들은 친구들은 무엇을 믿게 될까?" },
-      { role: "탐정", question: "믿을 만한 출처를 어떻게 찾을까?" },
+    evidenceOptions: [
+      { label: "학교 역사 교과서", detail: "수업에서 사용하는 검토된 자료이며 같은 기록이 없습니다.", strong: true },
+      { label: "공공 박물관 자료", detail: "세종대왕의 주요 업적을 확인할 수 있는 공식 자료입니다.", strong: true },
+      { label: "AI에게 다시 한 답", detail: "같은 AI가 출처 없이 비슷한 답을 반복했습니다.", strong: false },
     ],
     values: ["지혜", "정직", "책임"],
-    actions: ["교과서와 공공기관 자료에서 다시 확인한다", "그럴듯하니 그대로 사용한다", "AI에게 한 번 더 묻기만 한다"],
-    recommended: "red",
-    solution: "AI도 틀린 내용을 사실처럼 말할 수 있어요. 서로 다른 믿을 만한 자료 두 곳 이상에서 확인하고, 확인되지 않은 내용은 사용하지 않아요.",
-    badge: { syllable: "확", title: "확인 배지", text: "다른 믿을 만한 자료와 비교해요." },
+    discussion: {
+      question: "민준이는 AI의 답을 발표 자료에 넣어도 될까요?",
+      sides: [
+        { id: "A", title: "지금 넣어도 된다", description: "AI가 자세하고 확실하게 설명했으니 발표에 사용해도 된다." },
+        { id: "B", title: "확인한 뒤 넣어야 한다", description: "말투가 확실해도 출처가 없으면 교과서와 공공 자료를 먼저 확인해야 한다." },
+      ],
+      prompts: ["어떤 단서가 내 의견을 뒷받침하나요?", "틀린 정보가 발표되면 누가 어떤 영향을 받나요?", "확인하려면 어떤 자료를 찾아보면 좋을까요?"],
+    },
+    actions: [
+      { text: "교과서와 공공기관 자료 두 곳 이상에서 확인한다", recommended: true, why: "서로 다른 믿을 만한 자료를 비교하면 AI의 오류를 발견할 수 있어요." },
+      { text: "AI에게 같은 질문을 한 번 더 한다", recommended: false, why: "같은 도구가 비슷한 오류를 반복할 수 있어 다른 출처 확인이 필요해요." },
+      { text: "그럴듯하니 그대로 발표한다", recommended: false, why: "확인되지 않은 정보는 친구들에게 잘못 전달될 수 있어요." },
+    ],
+    principle: "AI의 답은 믿을 만한 자료 두 곳 이상에서 확인한다.",
+    checklist: { stage: "사용 중", text: "AI의 답에 출처가 있는지 보고 다른 자료와 비교한다." },
   },
   {
     id: 2,
     caseNo: "CASE 02",
-    category: "개인정보 · 동의",
-    title: "비밀 일기 상담 사건",
-    summary: "친구의 고민을 AI에게 대신 물어봐도 될까?",
-    scene:
-      "서윤이는 친구 지아를 돕고 싶어 AI 상담창에 지아의 이름, 학교, 반, 가족 이야기와 고민을 모두 입력했습니다. 지아에게는 미리 말하지 않았습니다.",
-    evidence: [
-      "친구를 도우려는 좋은 마음이었다.",
-      "실명과 학교 정보가 함께 입력되었다.",
-      "정보의 주인인 지아는 동의하지 않았다.",
+    badge: "멈",
+    topic: "개인정보와 동의",
+    title: "친구의 비밀 고민",
+    question: "도와주려는 마음이면 친구 정보를 입력해도 될까?",
+    scene: "서윤이는 친구 지아의 고민을 해결해 주고 싶었습니다. 그래서 AI 상담창에 지아의 이름, 학교, 반, 가족 이야기와 고민을 모두 입력했습니다. 하지만 지아에게는 미리 물어보지 않았습니다.",
+    aiHelp: "친구를 도울 방법을 빠르게 제안해 줄 수 있습니다.",
+    clues: ["실명과 학교 정보가 함께 입력되었습니다.", "가족 이야기와 고민은 지아의 비밀입니다.", "정보의 주인인 지아는 허락하지 않았습니다."],
+    reasonOptions: ["친구를 도우려는 좋은 마음이므로 괜찮다", "다른 사람의 정보는 먼저 허락을 받아야 한다", "AI만 보는 내용이므로 개인정보가 아니다"],
+    people: [
+      { name: "지아", impact: "내 비밀이 허락 없이 입력되어 불안하고 속상할 수 있어요." },
+      { name: "서윤", impact: "좋은 의도였어도 친구의 신뢰를 잃을 수 있어요." },
+      { name: "가족", impact: "가족의 정보까지 함께 노출될 수 있어요." },
     ],
-    investigation: [
-      { action: "지아의 입장 확인하기", source: "정보의 주인인 지아", clue: "지아는 자신의 이름과 가족 이야기를 AI에 입력하도록 허락한 적이 없습니다.", reliability: "high" },
-      { action: "개인정보 항목 살펴보기", source: "개인정보 보호 체크리스트", clue: "이름, 학교, 반, 가족 이야기가 합쳐지면 특정 사람을 알아볼 수 있습니다.", reliability: "high" },
-      { action: "AI에게 안전한지 물어보기", source: "AI의 일반적인 안내", clue: "AI는 조심하라고 답했지만, 지아의 동의를 대신해 줄 수는 없습니다.", reliability: "medium" },
-    ],
-    discuss: "좋은 의도라면 다른 사람의 개인정보를 허락 없이 입력해도 될까요?",
-    viewpoints: [
-      { role: "지아", question: "내 비밀이 입력된 것을 알면 어떤 기분일까?" },
-      { role: "서윤", question: "친구를 도울 다른 안전한 방법은 무엇일까?" },
-      { role: "보호자", question: "어떤 정보는 어른과 상의해야 할까?" },
+    evidenceOptions: [
+      { label: "정보의 주인인 지아의 말", detail: "지아는 자신의 정보를 입력해도 된다고 허락한 적이 없습니다.", strong: true },
+      { label: "개인정보 체크리스트", detail: "이름·학교·반이 합쳐지면 특정 사람을 알아볼 수 있습니다.", strong: true },
+      { label: "AI의 ‘조심하세요’ 답변", detail: "일반적인 안내일 뿐 지아의 동의를 대신할 수 없습니다.", strong: false },
     ],
     values: ["존중", "배려", "책임"],
-    actions: ["정보를 지우고 친구에게 알린 뒤 믿을 만한 어른에게 도움을 구한다", "이름만 별명으로 바꾸고 계속 입력한다", "답변을 친구들에게도 공유한다"],
-    recommended: "red",
-    solution: "내 정보뿐 아니라 친구의 정보도 허락 없이 AI에 입력하지 않아요. 도움이 필요할 때는 보호자나 선생님처럼 믿을 만한 어른에게 먼저 이야기해요.",
-    badge: { syllable: "멈", title: "멈춤 배지", text: "개인정보라면 입력하기 전에 멈춰요." },
+    discussion: {
+      question: "좋은 의도라면 친구의 개인정보를 허락 없이 입력해도 될까요?",
+      sides: [
+        { id: "A", title: "도움을 위한 일이니 괜찮다", description: "친구를 놀리거나 해치려는 목적이 아니므로 입력해도 된다." },
+        { id: "B", title: "좋은 의도여도 먼저 허락받아야 한다", description: "정보의 주인은 친구이므로 무엇을 어디에 입력할지 친구가 결정해야 한다." },
+      ],
+      prompts: ["좋은 의도와 좋은 행동은 항상 같을까요?", "지아가 이 사실을 알게 되면 어떤 기분일까요?", "AI 대신 누구에게 도움을 요청할 수 있을까요?"],
+    },
+    actions: [
+      { text: "입력을 멈추고 지아에게 알린 뒤 믿을 만한 어른에게 도움을 구한다", recommended: true, why: "정보의 주인에게 알리고 안전한 도움을 구하는 것이 친구를 존중하는 방법이에요." },
+      { text: "이름만 별명으로 바꾸고 계속 입력한다", recommended: false, why: "학교·반·가족 이야기만으로도 친구를 알아볼 수 있어요." },
+      { text: "AI 답변을 다른 친구들에게도 보여준다", recommended: false, why: "비밀이 더 넓게 퍼져 지아가 더 큰 피해를 볼 수 있어요." },
+    ],
+    principle: "나와 친구의 개인정보는 허락 없이 AI에 입력하지 않는다.",
+    checklist: { stage: "사용 전", text: "질문에 나와 다른 사람의 개인정보가 들어 있지 않은지 확인한다." },
   },
   {
     id: 3,
     caseNo: "CASE 03",
-    category: "권리 · 합성 이미지",
-    title: "웃긴 사진의 주인은 누구?",
-    summary: "친구 사진을 재미있게 바꾸는 것도 허락이 필요할까?",
-    scene:
-      "도윤이는 현장학습에서 찍은 친구 사진을 AI로 우스꽝스럽게 바꿔 모둠 채팅방에 올렸습니다. 여러 친구가 웃었지만 사진 속 친구는 아무 말도 하지 않았습니다.",
-    evidence: [
-      "사진 속 친구에게 허락을 받지 않았다.",
-      "채팅방 친구들이 사진을 다시 저장할 수 있다.",
-      "사진 속 친구가 웃지 않았지만 싫다는 말도 하지 않았다.",
+    badge: "살",
+    topic: "권리와 배려",
+    title: "웃긴 합성 사진",
+    question: "친구가 싫다고 말하지 않으면 동의한 걸까?",
+    scene: "도윤이는 현장학습에서 찍은 친구 사진을 AI로 우스꽝스럽게 바꾸어 모둠 채팅방에 올렸습니다. 여러 친구가 웃었지만 사진 속 친구는 아무 말도 하지 않았습니다.",
+    aiHelp: "사진을 빠르고 재미있게 바꾸어 새로운 이미지를 만들었습니다.",
+    clues: ["사진 속 친구에게 허락을 받지 않았습니다.", "채팅방 친구들이 사진을 저장하거나 다시 보낼 수 있습니다.", "사진 속 친구는 웃지 않았지만 싫다는 말도 하지 않았습니다."],
+    reasonOptions: ["친구들이 웃었으므로 재미있는 장난이다", "사진 속 사람의 허락과 마음을 먼저 확인해야 한다", "싫다고 말하지 않았으므로 동의한 것이다"],
+    people: [
+      { name: "사진 속 친구", impact: "내 모습이 웃음거리가 되어 창피하고 불안할 수 있어요." },
+      { name: "도윤", impact: "장난이 친구의 권리를 침해했다는 사실을 뒤늦게 알 수 있어요." },
+      { name: "채팅방 친구들", impact: "사진을 퍼뜨리는 행동에 함께 책임이 생길 수 있어요." },
     ],
-    investigation: [
-      { action: "사진 속 친구에게 묻기", source: "사진의 당사자", clue: "사진 속 친구는 합성 사진이 불편했고 올리지 않았으면 좋겠다고 말했습니다.", reliability: "high" },
-      { action: "채팅방의 공유 상태 확인하기", source: "모둠 채팅방 기록", clue: "이미 두 명이 사진을 저장했고 다른 방으로 보낼 수도 있는 상태입니다.", reliability: "high" },
-      { action: "친구들이 웃었는지 살펴보기", source: "주변 친구들의 반응", clue: "여러 친구가 웃었지만, 웃음만으로 사진 속 친구의 동의를 알 수는 없습니다.", reliability: "low" },
-    ],
-    discuss: "싫다고 말하지 않으면 동의한 것일까요? 재미와 권리가 부딪힐 때 무엇을 먼저 봐야 할까요?",
-    viewpoints: [
-      { role: "사진 속 친구", question: "많은 친구가 내 사진을 보면 어떤 기분일까?" },
-      { role: "도윤", question: "장난이 피해가 되었다는 것을 어떻게 알 수 있을까?" },
-      { role: "방장", question: "더 퍼지지 않게 무엇을 해야 할까?" },
+    evidenceOptions: [
+      { label: "사진 속 친구의 직접적인 말", detail: "친구는 합성 사진이 불편했고 올리지 않았으면 좋겠다고 말했습니다.", strong: true },
+      { label: "채팅방 공유 기록", detail: "이미 사진을 저장한 친구가 있어 더 퍼질 가능성이 있습니다.", strong: true },
+      { label: "주변 친구들의 웃음", detail: "다른 사람의 웃음은 사진 속 친구의 동의를 뜻하지 않습니다.", strong: false },
     ],
     values: ["존중", "공감", "책임"],
-    actions: ["즉시 삭제를 부탁하고 당사자에게 사과한다", "친한 친구들만 보는 방이라 그대로 둔다", "더 재미있게 바꿔 분위기를 푼다"],
-    recommended: "red",
-    solution: "사진의 주인은 사진 속 사람입니다. 합성하거나 공유하기 전에 분명하게 허락받고, 불편함을 알게 되면 즉시 삭제하고 사과해요.",
-    badge: { syllable: "살", title: "살핌 배지", text: "누군가 다치거나 불편하지 않은지 살펴요." },
+    discussion: {
+      question: "사진 속 친구가 싫다고 말하지 않았다면 합성하고 공유해도 될까요?",
+      sides: [
+        { id: "A", title: "친한 친구끼리의 장난이니 괜찮다", description: "나쁜 뜻이 없고 모둠 채팅방 안에서만 보았으므로 괜찮다." },
+        { id: "B", title: "분명한 허락이 없으면 하면 안 된다", description: "침묵은 동의가 아니며 사진 속 사람이 자신의 모습을 결정할 권리가 있다." },
+      ],
+      prompts: ["웃는 사람이 많으면 피해가 없는 걸까요?", "사진 속 친구가 말을 못 한 이유는 무엇일까요?", "이미 퍼진 사진을 줄이기 위해 무엇을 먼저 해야 할까요?"],
+    },
+    actions: [
+      { text: "사진을 삭제하고 저장·공유하지 말아 달라고 요청한 뒤 사과한다", recommended: true, why: "피해가 더 커지는 것을 막고 사진 속 친구의 권리를 회복하는 행동이에요." },
+      { text: "친한 친구들만 보는 방이므로 그대로 둔다", recommended: false, why: "채팅방의 사진도 저장되고 다른 곳으로 퍼질 수 있어요." },
+      { text: "더 재미있게 바꾸어 분위기를 푼다", recommended: false, why: "친구의 불편함과 피해를 더 크게 만들 수 있어요." },
+    ],
+    principle: "다른 사람의 사진은 합성하거나 공유하기 전에 분명히 허락받는다.",
+    checklist: { stage: "사용 전", text: "다른 사람의 사진·글·목소리를 사용할 때 허락받았는지 확인한다." },
   },
   {
     id: 4,
     caseNo: "CASE 04",
-    category: "정직 · 저작권",
-    title: "혼자 만든 포스터의 비밀",
-    summary: "AI와 함께 만든 작품을 내 작품이라고 해도 될까?",
-    scene:
-      "하린이는 환경 포스터 대회에서 AI로 문구와 그림을 만든 뒤 조금 고쳤습니다. 제출서에는 ‘모두 내가 직접 만들었다’고 적었습니다.",
-    evidence: [
-      "주제와 수정 아이디어는 하린이가 생각했다.",
-      "그림과 첫 문구는 AI가 만들었다.",
-      "대회 안내에는 AI 사용 여부를 밝히라고 적혀 있었다.",
+    badge: "밝",
+    topic: "정직과 책임",
+    title: "AI와 만든 환경 포스터",
+    question: "AI의 도움을 받으면 내 작품이 아닌 걸까?",
+    scene: "하린이는 환경 포스터 대회에서 AI로 문구와 그림을 만든 뒤 자신의 생각으로 조금 고쳤습니다. 대회 안내에는 AI 사용 여부를 밝히라고 되어 있었지만 제출서에는 ‘모두 내가 직접 만들었다’고 적었습니다.",
+    aiHelp: "문구와 그림의 초안을 빠르게 만들어 아이디어를 표현하도록 도왔습니다.",
+    clues: ["주제와 수정 아이디어는 하린이가 생각했습니다.", "첫 문구와 그림은 AI가 만들었습니다.", "대회 안내에는 AI 사용 여부를 밝히라고 적혀 있습니다."],
+    reasonOptions: ["조금 고쳤으므로 모두 직접 만들었다고 해도 된다", "AI가 도운 부분과 내가 한 부분을 구분해 밝혀야 한다", "AI를 사용하면 어떤 작품도 제출하면 안 된다"],
+    people: [
+      { name: "하린", impact: "자신이 실제로 한 노력까지 공정하게 인정받기 어려워질 수 있어요." },
+      { name: "다른 참가자", impact: "AI 사용을 숨긴 작품과 경쟁하면 불공정하다고 느낄 수 있어요." },
+      { name: "심사위원", impact: "작품의 과정과 학생의 노력을 정확히 판단하기 어려워요." },
     ],
-    investigation: [
-      { action: "대회 안내문 확인하기", source: "대회 공식 안내문", clue: "안내문에는 AI를 사용한 부분과 직접 만든 부분을 구분해 적으라고 되어 있습니다.", reliability: "high" },
-      { action: "포스터 제작 기록 살펴보기", source: "하린이의 작업 기록", clue: "주제와 수정은 하린이가 했고, 첫 문구와 그림은 AI가 만들었습니다.", reliability: "high" },
-      { action: "친구에게 작품 의견 묻기", source: "친구의 개인적인 의견", clue: "친구는 조금 고쳤으니 괜찮다고 생각했지만 대회 규칙은 확인하지 않았습니다.", reliability: "medium" },
-    ],
-    discuss: "AI의 도움을 받으면 내 생각과 노력이 모두 사라질까요? 정직하게 밝히는 방법은 무엇일까요?",
-    viewpoints: [
-      { role: "하린", question: "내가 직접 한 부분을 어떻게 설명할까?" },
-      { role: "다른 참가자", question: "사용 사실을 숨기면 공정하다고 느낄까?" },
-      { role: "심사위원", question: "작품을 판단하려면 어떤 정보가 필요할까?" },
+    evidenceOptions: [
+      { label: "대회 공식 안내문", detail: "AI를 사용한 부분과 직접 만든 부분을 구분해 적으라고 되어 있습니다.", strong: true },
+      { label: "하린이의 작업 기록", detail: "주제와 수정은 하린이가, 첫 문구와 그림은 AI가 만들었습니다.", strong: true },
+      { label: "친구의 ‘괜찮아’라는 의견", detail: "친구는 개인 의견을 말했지만 대회 규칙을 확인하지 않았습니다.", strong: false },
     ],
     values: ["정직", "책임", "공정"],
-    actions: ["AI를 사용한 부분과 내가 수정한 부분을 구분해 밝힌다", "조금 고쳤으니 모두 내가 만들었다고 한다", "친구가 대신 만들었다고 적는다"],
-    recommended: "yellow",
-    solution: "AI를 활용하는 것 자체가 잘못은 아니에요. 규칙을 확인하고, AI가 도운 부분과 내가 직접 생각하고 고친 부분을 정직하게 밝혀요.",
-    badge: { syllable: "밝", title: "밝힘 배지", text: "AI 사용 사실과 출처를 정직하게 밝혀요." },
+    discussion: {
+      question: "AI와 함께 만든 포스터를 ‘모두 내가 만들었다’고 해도 될까요?",
+      sides: [
+        { id: "A", title: "내가 수정했으니 모두 내 작품이다", description: "주제를 정하고 결과를 고쳤으므로 AI 사용을 따로 밝히지 않아도 된다." },
+        { id: "B", title: "함께 만든 과정을 정직하게 밝혀야 한다", description: "AI가 도운 부분과 내가 생각하고 수정한 부분을 구분하면 내 노력도 정확히 설명할 수 있다." },
+      ],
+      prompts: ["AI를 사용했다는 사실을 밝히면 내 노력이 사라질까요?", "다른 참가자는 어떤 점을 불공정하다고 느낄까요?", "AI와 내가 한 일을 어떻게 구분해서 설명할 수 있을까요?"],
+    },
+    actions: [
+      { text: "AI가 만든 초안과 내가 생각하고 수정한 부분을 구분해 밝힌다", recommended: true, why: "AI 활용과 나의 노력을 모두 정직하고 정확하게 설명할 수 있어요." },
+      { text: "조금 수정했으므로 모두 직접 만들었다고 쓴다", recommended: false, why: "대회 규칙을 어기고 다른 참가자와 심사위원을 속이게 돼요." },
+      { text: "AI를 썼으니 내 생각과 노력은 전혀 없다고 쓴다", recommended: false, why: "AI 사용 사실을 밝히는 것과 자신의 노력을 없애는 것은 달라요." },
+    ],
+    principle: "AI가 도운 부분과 내가 직접 한 부분을 구분해 밝힌다.",
+    checklist: { stage: "사용 후", text: "AI를 사용한 부분과 정보의 출처를 다른 사람에게 정직하게 밝힌다." },
   },
 ];
 
-export const constitutionRules = [
-  "우리는 개인정보와 친구의 비밀을 AI에 입력하지 않는다.",
-  "우리는 AI의 답을 믿을 만한 자료 두 곳 이상에서 확인한다.",
-  "우리는 다른 사람의 사진과 작품을 허락 없이 사용하지 않는다.",
-  "우리는 AI를 사용한 부분과 출처를 정직하게 밝힌다.",
-  "우리는 AI의 결정에만 기대지 않고 마지막 판단은 스스로 한다.",
-  "우리는 차별하거나 상처 주는 결과를 발견하면 사용을 멈추고 알린다.",
+export const sharedPromises = [
+  { value: "지혜", text: "AI의 답을 그대로 믿지 않고 사실과 출처를 확인한다." },
+  { value: "존중", text: "나와 다른 사람의 개인정보와 권리를 소중히 지킨다." },
+  { value: "공감", text: "AI 사용으로 불편하거나 상처받는 사람이 없는지 살핀다." },
+  { value: "정직", text: "AI가 도운 부분과 정보의 출처를 솔직하게 밝힌다." },
+  { value: "책임", text: "AI의 제안만 따르지 않고 마지막 결정은 스스로 내린다." },
 ];
