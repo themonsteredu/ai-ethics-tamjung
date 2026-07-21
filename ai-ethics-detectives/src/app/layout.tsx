@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AI 윤리탐정단 | 멈·살·확·밝",
-  description: "초등학생을 위한 AI 윤리 사례 기반 탐정 토론 프로그램",
+  title: "AI 윤리탐정단 | 마지막 판단은 내가 해요",
+  description: "사실·사람·가치·행동을 연결하며 책임 있는 AI 사용을 배우는 초등 윤리 수업",
 };
 
 export const viewport: Viewport = {
