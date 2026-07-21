@@ -33,6 +33,7 @@ export type EthicsCase = {
   };
   actions: { text: string; recommended: boolean; why: string }[];
   principle: string;
+  twist: string;
   checklist: { stage: "사용 전" | "사용 중" | "사용 후"; text: string };
 };
 
@@ -79,6 +80,7 @@ export const ethicsCases: EthicsCase[] = [
       { text: "그럴듯하니 그대로 발표한다", recommended: false, why: "확인되지 않은 정보는 친구들에게 잘못 전달될 수 있어요." },
     ],
     principle: "AI의 답은 믿을 만한 자료 두 곳 이상에서 확인한다.",
+    twist: "AI가 확신하는 말투로 말해도 출처가 없다면 사실이라는 증거가 되지 않아요.",
     checklist: { stage: "사용 중", text: "AI의 답에 출처가 있는지 보고 다른 자료와 비교한다." },
   },
   {
@@ -117,6 +119,7 @@ export const ethicsCases: EthicsCase[] = [
       { text: "AI 답변을 다른 친구들에게도 보여준다", recommended: false, why: "비밀이 더 넓게 퍼져 지아가 더 큰 피해를 볼 수 있어요." },
     ],
     principle: "나와 친구의 개인정보는 허락 없이 AI에 입력하지 않는다.",
+    twist: "이름을 별명으로 바꿔도 학교·반·가족 이야기가 합쳐지면 누구인지 알아볼 수 있어요.",
     checklist: { stage: "사용 전", text: "질문에 나와 다른 사람의 개인정보가 들어 있지 않은지 확인한다." },
   },
   {
@@ -155,6 +158,7 @@ export const ethicsCases: EthicsCase[] = [
       { text: "더 재미있게 바꾸어 분위기를 푼다", recommended: false, why: "친구의 불편함과 피해를 더 크게 만들 수 있어요." },
     ],
     principle: "다른 사람의 사진은 합성하거나 공유하기 전에 분명히 허락받는다.",
+    twist: "친구가 아무 말도 하지 않은 것은 허락이 아니라, 불편해서 말을 못 한 것일 수도 있어요.",
     checklist: { stage: "사용 전", text: "다른 사람의 사진·글·목소리를 사용할 때 허락받았는지 확인한다." },
   },
   {
@@ -193,6 +197,7 @@ export const ethicsCases: EthicsCase[] = [
       { text: "AI를 썼으니 내 생각과 노력은 전혀 없다고 쓴다", recommended: false, why: "AI 사용 사실을 밝히는 것과 자신의 노력을 없애는 것은 달라요." },
     ],
     principle: "AI가 도운 부분과 내가 직접 한 부분을 구분해 밝힌다.",
+    twist: "AI 사용을 정직하게 밝히면 오히려 내가 생각하고 고친 부분이 더 또렷하게 보여요.",
     checklist: { stage: "사용 후", text: "AI를 사용한 부분과 정보의 출처를 다른 사람에게 정직하게 밝힌다." },
   },
 ];
