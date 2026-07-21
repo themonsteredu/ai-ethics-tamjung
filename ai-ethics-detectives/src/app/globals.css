@@ -357,56 +357,118 @@ a { color: inherit; }
 .teacher-principles li, .curriculum-box p { margin: 5px 0; font-size: 10px; line-height: 1.55; }
 .curriculum-box b { color: var(--violet); }
 
+/* Readability pass: student screens use fewer, larger text tiers. */
+.brand small { font-size: 11px; }
+.detective-id, .badge-rack i { font-size: 12px; }
+.header-link, .header-button { font-size: 14px; }
+.eyebrow, .page-label, .core-message span { font-size: 12px; }
+.mission-teaser span, .notebook-top, .preview-grid article > span { font-size: 12px; }
+.home-copy > small, .preview-heading span, .home-footer-cta span { font-size: 14px; }
+.notebook-route span, .preview-grid article > p, .preview-grid article > small { font-size: 14px; }
+.thinking-route span, .nickname-card small { font-size: 13px; }
+.nickname-card label { font-size: 14px; }
+.case-progress > span, .case-progress i { font-size: 11px; }
+.case-progress p { font-size: 13px; }
+.case-page-head span, .case-page-head b { font-size: 12px; }
+.case-page-head > p { font-size: 13px; }
+.learning-target { grid-template-columns: 115px 1fr; align-items: center; }
+.learning-target > span, .section-heading > span, .thinking-intro > span, .resolution-intro > span, .discussion-heading > span { font-size: 12px; }
+.learning-target h2 { font-size: 23px; line-height: 1.4; }
+.section-heading p { font-size: 15px; }
+.case-alert { grid-template-columns: auto auto 1fr; padding-block: 15px; }
+.case-alert b, .case-alert p { font-size: 14px; }
+.case-story-head span, .case-story-head b { font-size: 12px; }
+.helpful-note span, .clue-list > span, .clue-vault-head { font-size: 13px; }
+.helpful-note p, .clue-list p { font-size: 14px; }
+.clue-list i { font-size: 11px; }
+.sealed-clue { font-size: 13px; }
+.reveal-clue-button { font-size: 14px; }
+.clues-complete { grid-template-columns: 30px 1fr; }
+.clues-complete p, .clues-complete p b { font-size: 14px; }
+.judgement-lock p, .judgement-lock > i { font-size: 14px; }
+.signal-picker small { font-size: 14px; }
+.reason-choice > b, .reason-choice button { font-size: 14px; }
+.reason-choice button span { font-size: 12px; }
+.thinking-intro p, .resolution-intro p, .discussion-heading p { font-size: 15px; }
+.lens-heading span, .reason-summary span { font-size: 13px; }
+.evidence-options button > span { font-size: 12px; }
+.option-grid button > b { font-size: 17px; }
+.option-grid button > p { font-size: 14px; }
+.position-grid > button > span { font-size: 12px; }
+.position-grid > button > p { font-size: 14px; }
+.position-grid > button > strong { font-size: 13px; }
+.talk-guide { grid-template-columns: 1fr; }
+.talk-guide > div > span { font-size: 13px; }
+.talk-guide p { font-size: 15px; }
+.talk-guide i { font-size: 11px; }
+.discussion-timer span, .discussion-timer button { font-size: 13px; }
+.action-options > button > span { font-size: 14px; }
+.action-options > button > b { font-size: 16px; }
+.action-options > button > p { font-size: 14px; }
+.change-reasons > b { font-size: 14px; }
+.change-reasons button { font-size: 13px; }
+.principle-card span, .twist-card span { font-size: 13px; }
+.principle-card p { font-size: 14px; }
+.twist-card p { font-size: 15px; }
+.pledge-heading > span, .complete-page > span { font-size: 13px; }
+.learned-principles p, .promise-picker p { font-size: 14px; }
+.promise-picker { margin-top: 35px; }
+.promise-picker > span { font-size: 15px; }
+.promise-picker i { font-size: 11px; }
+.pledge-status span { font-size: 13px; }
+.complete-summary span, .my-promises > span { font-size: 13px; }
+.my-promises p { font-size: 14px; }
+.teacher-panel > span, .lesson-flow span { font-size: 13px; }
+.teacher-purpose, .lesson-flow p, .teacher-principles li, .curriculum-box p { font-size: 14px; }
+
 /* Printable worksheets */
 .worksheet-hub { min-height: 100vh; padding: 32px 20px 80px; background: #e8e5de; }
 .worksheet-toolbar, .worksheet-guide, .worksheet-stack { width: min(980px, 100%); margin-inline: auto; }
 .worksheet-toolbar { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 20px; padding: 15px 18px; border-radius: 9px; background: var(--ink); color: white; }
-.worksheet-toolbar > a { font-size: 11px; font-weight: 850; text-decoration: none; }
+.worksheet-toolbar > a { font-size: 14px; font-weight: 850; text-decoration: none; }
 .worksheet-toolbar > div { display: grid; gap: 2px; }
-.worksheet-toolbar b { font-size: 13px; }
-.worksheet-toolbar span { color: #bcbcc6; font-size: 9px; }
-.worksheet-toolbar button { padding: 10px 14px; border: 0; border-radius: 5px; background: var(--lime); cursor: pointer; font-weight: 900; }
+.worksheet-toolbar b { font-size: 16px; }
+.worksheet-toolbar span { color: #d6d6de; font-size: 13px; }
+.worksheet-toolbar button { padding: 11px 16px; border: 0; border-radius: 5px; background: var(--lime); cursor: pointer; font-size: 14px; font-weight: 900; }
 .worksheet-guide { display: flex; align-items: center; gap: 13px; margin-block: 12px; padding: 12px 15px; border: 1px solid #c9c4b8; border-radius: 7px; background: #f6f3eb; }
-.worksheet-guide b { color: var(--violet); font-size: 10px; }
-.worksheet-guide p { margin: 0; font-size: 10px; }
+.worksheet-guide b { color: var(--violet); font-size: 14px; }
+.worksheet-guide p { margin: 0; font-size: 14px; }
 .worksheet-stack { display: grid; gap: 28px; }
-.print-sheet { min-height: 1330px; padding: 55px; background: white; box-shadow: 0 15px 40px rgba(23,24,45,.1); }
+.print-sheet { min-height: 1330px; padding: 50px 55px; background: white; box-shadow: 0 15px 40px rgba(23,24,45,.1); }
 .print-sheet-head { display: flex; justify-content: space-between; gap: 20px; padding-bottom: 16px; border-bottom: 3px solid var(--ink); }
-.print-sheet-head span { color: var(--violet); font-size: 9px; font-weight: 900; }
-.print-sheet-head h1 { margin: 5px 0; font-size: 25px; }
-.print-sheet-head p { margin: 0; font-size: 12px; }
-.student-fields { min-width: 265px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: end; }
-.student-fields span { display: flex; gap: 6px; color: var(--ink); font-size: 9px; }
+.print-sheet-head > div:first-child { flex: 1; }
+.print-sheet-head span { color: var(--violet); font-size: 13px; font-weight: 900; }
+.print-sheet-head h1 { margin: 6px 0; font-size: 28px; }
+.print-sheet-head p { margin: 0; font-size: 18px; font-weight: 850; line-height: 1.45; }
+.student-fields { width: 190px; display: grid; gap: 13px; align-content: end; }
+.student-fields span { display: flex; gap: 8px; color: var(--ink); font-size: 14px; font-weight: 750; }
 .student-fields i { flex: 1; border-bottom: 1px solid var(--ink); }
-.print-target { display: grid; grid-template-columns: 115px 1fr; margin: 15px 0; border: 1px solid var(--ink); }
-.print-target b { padding: 11px; background: var(--ink); color: white; font-size: 10px; }
-.print-target span { padding: 11px; font-size: 11px; font-weight: 750; }
-.print-scene, .print-thinking, .print-discussion, .print-action { margin-top: 15px; padding: 16px; border: 1px solid #aaa79f; border-radius: 6px; }
-.print-sheet section h2 { margin: 0 0 9px; font-size: 15px; }
-.print-scene > p { margin: 0; font-size: 10px; line-height: 1.55; }
-.print-scene > div { display: grid; gap: 5px; margin-top: 11px; padding: 9px; background: #f0ede5; }
-.print-scene > div > b { font-size: 9px; }
-.print-scene > div > span { display: flex; gap: 7px; font-size: 9px; }
-.print-scene > div i { width: 16px; height: 16px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: white; font-style: normal; font-size: 7px; }
+.print-scene, .print-thinking, .print-discussion, .print-action { margin-top: 14px; padding: 15px 18px; border: 1px solid #aaa79f; border-radius: 7px; }
+.print-sheet section h2 { display: flex; align-items: center; gap: 9px; margin: 0 0 10px; font-size: 19px; }
+.print-sheet section h2 > span { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: white; font-size: 14px; }
+.print-scene > p { margin: 0; font-size: 14px; line-height: 1.65; }
+.print-scene > div { display: grid; grid-template-columns: 105px 1fr; gap: 5px 12px; margin-top: 11px; padding: 10px 12px; background: #f0ede5; }
+.print-scene > div > b { grid-row: 1 / 4; align-self: center; color: var(--violet); font-size: 14px; }
+.print-scene > div > span { display: flex; gap: 8px; font-size: 13px; line-height: 1.4; }
+.print-scene > div i { width: 20px; height: 20px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; background: var(--ink); color: white; font-style: normal; font-size: 11px; }
 .print-three-columns, .print-sides { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.print-three-columns > div { min-height: 135px; position: relative; padding: 12px; border: 1px solid #bbb7ac; }
-.print-three-columns span { position: absolute; right: 8px; top: 8px; color: #bbb7ac; font-size: 23px; font-weight: 950; }
-.print-three-columns b { color: var(--violet); font-size: 10px; }
-.print-three-columns p { min-height: 31px; font-size: 9px; }
-.print-three-columns i, .print-sides i, .print-action > div i { display: block; height: 25px; border-bottom: 1px solid #999; }
-.print-sentence { margin-top: 8px; padding: 9px; background: #f0ede5; }
-.print-sentence b { font-size: 9px; }
-.print-sentence p { margin: 6px 0 0; font-size: 9px; }
-.print-question { padding: 9px; background: var(--ink); color: white; font-size: 10px; font-weight: 750; }
+.print-three-columns > div { min-height: 125px; padding: 12px; border: 1px solid #bbb7ac; }
+.print-three-columns b { color: var(--violet); font-size: 15px; }
+.print-three-columns p { min-height: 38px; margin: 6px 0; font-size: 13px; line-height: 1.35; }
+.print-three-columns i, .print-writing-prompt i { display: block; height: 27px; border-bottom: 1px solid #999; }
+.print-question { margin: 0; padding: 10px 12px; background: var(--ink); color: white; font-size: 15px; font-weight: 800; line-height: 1.4; }
 .print-sides { grid-template-columns: 1fr 1fr; }
-.print-sides > div { padding: 10px; border: 1px solid #bbb7ac; }
-.print-sides b { font-size: 9px; }
-.print-sides p, .print-sides span { font-size: 8px; line-height: 1.45; }
-.print-action > label { display: flex; align-items: center; gap: 7px; margin: 5px 0; font-size: 9px; }
-.print-action > label i { width: 12px; height: 12px; border: 1px solid var(--ink); }
-.print-action > div { margin-top: 9px; }
-.print-action > div b { font-size: 9px; }
-.print-sheet footer { display: flex; justify-content: space-between; margin-top: 14px; color: #777; font-size: 8px; }
+.print-sides > div { display: flex; align-items: center; gap: 9px; padding: 9px 11px; border: 1px solid #bbb7ac; }
+.print-sides b { width: 26px; height: 26px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 4px; background: var(--violet-pale); color: var(--violet); font-size: 14px; }
+.print-sides span { color: var(--ink); font-size: 14px; font-weight: 800; line-height: 1.35; }
+.print-writing-prompt { margin-top: 10px; }
+.print-writing-prompt b { font-size: 14px; }
+.print-action { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+.print-action h2 { grid-column: 1 / -1; }
+.print-action .print-writing-prompt { margin-top: 0; }
+.print-sheet footer { display: flex; justify-content: space-between; gap: 18px; margin-top: 14px; padding: 12px 14px; background: #f0ede5; color: var(--ink); font-size: 13px; line-height: 1.4; }
+.print-sheet footer b { color: var(--violet); }
+.print-sheet footer strong { white-space: nowrap; }
 
 @media screen and (max-width: 900px) {
   .home-hero { grid-template-columns: 1fr; padding-top: 55px; }
@@ -428,7 +490,7 @@ a { color: inherit; }
   .brand-mark { width: 37px; height: 37px; }
   .brand small, .detective-id, .header-actions .header-button { display: none; }
   .badge-rack { display: none; }
-  .header-link { padding: 9px; font-size: 10px; }
+  .header-link { padding: 9px; font-size: 13px; }
   .home-hero, .case-preview, .case-progress, .case-page, .setup-page, .pledge-page, .complete-page { width: calc(100% - 24px); }
   .home-hero { min-height: 0; padding: 48px 0 60px; gap: 30px; }
   .home-copy { text-align: left; }
@@ -461,7 +523,7 @@ a { color: inherit; }
   .nickname-card { padding: 18px; }
   .case-progress { align-items: flex-start; gap: 9px; margin-top: 12px; padding: 10px; }
   .case-progress > span { display: none; }
-  .case-progress p { display: grid; justify-items: center; gap: 3px; font-size: 9px; }
+  .case-progress p { display: grid; justify-items: center; gap: 3px; font-size: 11px; }
   .case-progress p::after { left: 55%; right: -45%; top: 12px; }
   .case-page { padding: 35px 0 70px; }
   .case-page-head > p { display: none; }
