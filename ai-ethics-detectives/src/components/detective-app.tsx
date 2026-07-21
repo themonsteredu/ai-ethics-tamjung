@@ -133,7 +133,7 @@ export function DetectiveApp() {
       {screen === "scene" && (
         <CasePage item={item} caseIndex={caseIndex} stage="사건 이해">
           <LearningTarget question={item.question} principle={item.principle} />
-          <div className="case-alert" role="status"><span className="alert-pulse" aria-hidden="true" /><b>긴급 의뢰 도착</b><p>{nickname || "연수생"} 탐정, 사건 기록을 읽고 봉인된 단서 3개를 찾아주세요.</p><i>수사 보상 · {item.badge} 배지</i></div>
+          <div className="case-alert" role="status"><span className="alert-pulse" aria-hidden="true" /><b>긴급 의뢰</b><p>단서 3개를 열고 첫 판단을 내려요.</p></div>
           <section className="scene-layout">
             <article className="case-story">
               <div className="case-story-head"><span>{item.caseNo}</span><b>{item.topic}</b></div>
@@ -145,8 +145,8 @@ export function DetectiveApp() {
               <div className="clue-vault">
                 <div className="clue-vault-head"><span>봉인된 단서 봉투</span><b>{revealedClues} / {item.clues.length}</b></div>
                 <div className="clue-meter" aria-label={`단서 ${revealedClues}개 수집`}><i style={{ width: `${(revealedClues / item.clues.length) * 100}%` }} /></div>
-                <div className="clue-list">{item.clues.map((clue, index) => index < revealedClues ? <p className="clue-revealed page-enter" key={clue}><i>{index + 1}</i><span><b>단서 {index + 1}</b>{clue}</span></p> : <div className="sealed-clue" key={clue}><i>?</i><span>아직 봉인되어 있어요</span></div>)}</div>
-                {revealedClues < item.clues.length ? <button className="reveal-clue-button" onClick={() => setRevealedClues((value) => Math.min(value + 1, item.clues.length))}><span aria-hidden="true">✦</span> 단서 봉투 {revealedClues + 1} 열기</button> : <div className="clues-complete page-enter"><span>✓</span><p><b>단서 수집 완료!</b>첫 추리를 시작할 수 있어요.</p><i>+30 수사력</i></div>}
+                <div className="clue-list">{item.clues.map((clue, index) => index < revealedClues ? <p className="clue-revealed page-enter" key={clue}><i>{index + 1}</i><span>{clue}</span></p> : <div className="sealed-clue" key={clue}><i>?</i><span>봉인된 단서</span></div>)}</div>
+                {revealedClues < item.clues.length ? <button className="reveal-clue-button" onClick={() => setRevealedClues((value) => Math.min(value + 1, item.clues.length))}><span aria-hidden="true">✦</span> 단서 {revealedClues + 1} 열기</button> : <div className="clues-complete page-enter"><span>✓</span><p><b>단서 수집 완료!</b></p></div>}
               </div>
             </aside>
           </section>
@@ -167,7 +167,7 @@ export function DetectiveApp() {
       {screen === "think" && (
         <CasePage item={item} caseIndex={caseIndex} stage="근거 찾기">
           <LearningTarget question={item.question} principle={item.principle} />
-          <div className="thinking-intro"><span>생각의 돋보기</span><h1>사실만 보지 말고, 사람과 가치까지 연결해요.</h1><p>세 가지 질문에 답하면 내 판단의 근거가 한 문장으로 완성됩니다.</p></div>
+            <div className="thinking-intro"><span>생각의 돋보기</span><h1>사실 · 사람 · 가치를 연결해요.</h1><p>세 질문에 답하면 근거 문장이 완성됩니다.</p></div>
           <section className="lens-block fact-lens">
             <LensHeading number="1" label="사실을 확인해요" question="어떤 자료가 판단에 가장 도움이 될까요?" />
             <div className="option-grid evidence-options">{item.evidenceOptions.map((option, index) => <button key={option.label} className={answer.evidence === index ? "selected" : ""} onClick={() => patchAnswer({ evidence: index })} aria-pressed={answer.evidence === index}><span>{option.strong ? "믿을 만한 자료" : "추가 확인 필요"}</span><b>{option.label}</b><p>{option.detail}</p></button>)}</div>
@@ -191,12 +191,9 @@ export function DetectiveApp() {
         <CasePage item={item} caseIndex={caseIndex} stage="양쪽 심문">
           <LearningTarget question={item.question} principle={item.principle} />
           <section className="discussion-board">
-            <div className="discussion-heading"><span>양쪽 목소리 심문실</span><h1>{item.discussion.question}</h1><p>두 입장을 번갈아 맡아 말해 본 뒤, 더 좋은 근거와 행동을 함께 찾아요.</p></div>
+            <div className="discussion-heading"><span>양쪽 목소리 심문실</span><h1>{item.discussion.question}</h1><p>두 입장을 모두 말해 보고 근거를 비교해요.</p></div>
             <div className="position-grid">{item.discussion.sides.map((side) => <button key={side.id} className={answer.discussionSide === side.id ? "selected" : ""} onClick={() => patchAnswer({ discussionSide: side.id })} aria-pressed={answer.discussionSide === side.id}><span>입장 {side.id}</span><b>{side.title}</b><p>{side.description}</p><strong>{answer.discussionSide === side.id ? "우리 모둠의 현재 입장 ✓" : "이 입장 선택하기"}</strong></button>)}</div>
-            <div className="talk-guide">
-              <div><span>말할 때 사용할 세 가지 질문</span>{item.discussion.prompts.map((prompt, index) => <p key={prompt}><i>{index + 1}</i>{prompt}</p>)}</div>
-              <div className="sentence-start"><span>이렇게 시작해 보세요</span><p>“나는 <b>___ 단서</b> 때문에 이렇게 생각해.”</p><p>“<b>___의 마음</b>에서 보면 달라질 수 있어.”</p><p>“우리 둘의 의견을 합치면 <b>___</b>할 수 있어.”</p></div>
-            </div>
+            <div className="talk-guide"><div><span>탐정 질문 3개</span>{item.discussion.prompts.map((prompt, index) => <p key={prompt}><i>{index + 1}</i>{prompt}</p>)}</div></div>
             <DiscussionTimer />
           </section>
           <PageActions><button className="secondary-button" onClick={() => go("think")}>← 근거 다시 보기</button><button className="primary-button large" disabled={!answer.discussionSide} onClick={() => go("resolve")}>더 나은 행동 정하기 <span>→</span></button></PageActions>
@@ -219,7 +216,7 @@ export function DetectiveApp() {
             <div className="case-solved page-enter">
               <div className="confetti" aria-hidden="true">{Array.from({ length: 8 }, (_, index) => <i key={index} />)}</div>
               <div className="solved-stamp">사건<br />해결!</div>
-              <div className="principle-card"><div className="principle-badge">{item.badge}</div><div><span>해결 배지 획득 · 이번 사건의 탐정 원칙</span><h2>{item.principle}</h2><p>{item.checklist.stage}에 확인할 약속으로 탐정 수첩에 기록했습니다.</p></div></div>
+              <div className="principle-card"><div className="principle-badge">{item.badge}</div><div><span>해결 배지 획득</span><h2>{item.principle}</h2></div></div>
               <div className="twist-card"><span>마지막 비밀 단서</span><p>{item.twist}</p></div>
             </div>
           )}
@@ -230,7 +227,6 @@ export function DetectiveApp() {
       {screen === "pledge" && (
         <section className="pledge-page page-enter">
           <div className="pledge-heading"><span>마지막 활동</span><h1>우리 반에 필요한<br />AI 윤리 약속을 골라요.</h1><p>사건에서 배운 내용을 생활 속 행동으로 바꾸는 단계입니다. 가장 중요하다고 생각하는 약속 세 가지 이상을 선택하세요.</p></div>
-          <div className="learned-principles">{ethicsCases.map((caseItem) => <div key={caseItem.id}><span>{caseItem.badge}</span><p><b>{caseItem.topic}</b>{caseItem.principle}</p></div>)}</div>
           <section className="promise-picker"><span>우리 반 AI 윤리 키워드와 실천 방법</span>{sharedPromises.map((promise, index) => <button key={promise.value} className={promises.includes(index) ? "selected" : ""} onClick={() => setPromises((previous) => previous.includes(index) ? previous.filter((value) => value !== index) : [...previous, index])} aria-pressed={promises.includes(index)}><i>{promises.includes(index) ? "✓" : index + 1}</i><b>{promise.value}</b><p>{promise.text}</p></button>)}</section>
           <div className="pledge-status"><b>{promises.length}</b><span>/ 3개 이상 선택</span></div>
           <PageActions><button className="primary-button large" disabled={promises.length < 3} onClick={() => go("complete")}>윤리탐정단 임무 완료 <span>→</span></button></PageActions>
@@ -301,8 +297,8 @@ function CasePage({ item, caseIndex, stage, children }: { item: (typeof ethicsCa
   return <section className="case-page page-enter"><header className="case-page-head"><div><span>{item.caseNo}</span><b>{item.topic}</b></div><p>{caseIndex + 1}번째 사건 · {stage}</p></header>{children}</section>;
 }
 
-function LearningTarget({ question, principle }: { question: string; principle: string }) {
-  return <div className="learning-target"><span>오늘 밝혀낼 것</span><h2>{question}</h2><p><b>수업이 끝나면</b> {principle}</p></div>;
+function LearningTarget({ question }: { question: string; principle: string }) {
+  return <div className="learning-target"><span>오늘의 질문</span><h2>{question}</h2></div>;
 }
 
 function SignalPicker({ value, onChange }: { value?: Signal; onChange: (value: Signal) => void }) {
